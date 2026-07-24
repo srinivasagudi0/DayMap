@@ -27,6 +27,10 @@ function Home() {
       <h2>Pending Tasks</h2>
       <p>There are no pending tasks.</p>  
     </div>
+    <div className="completed-tasks">
+      <h2>Completed Tasks</h2>
+      <p>There are no completed tasks.</p>
+    </div>
     </div>
     </main>
   );
