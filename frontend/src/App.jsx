@@ -8,7 +8,7 @@ function App() {
 
     <BrowserRouter>
       <nav>
-        <Link to="/">Start</Link>
+        <Link to="/">DayMap</Link>
       </nav>
 
       <Routes>
