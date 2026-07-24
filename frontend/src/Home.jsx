@@ -32,9 +32,14 @@ function Home() {
       <p>There are no completed tasks.</p>
     </div>
     </div>
+    <div className="auto">
+      <br />
+      <h2>Quick Add</h2>
+      <p>Add a new task here.</p>
+      <textarea placeholder="Enter task details..."></textarea>
+    </div>
     </main>
   );
 }
 
 export default Home;
-
