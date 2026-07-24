@@ -37,6 +37,7 @@ function Home() {
       <h2>Quick Add</h2>
       <p>Add a new task here.</p>
       <textarea placeholder="Enter task details..."></textarea>
+      <button>Add Task</button>
     </div>
     </main>
   );
