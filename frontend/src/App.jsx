@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import Start from './Start'
+import Home from './Home'
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       </nav>
 
       <Routes>
-        <Route path="/"  element={<Start />} />
+        <Route path="/"  element={<Home />} />
         
       </Routes>
     </BrowserRouter>
