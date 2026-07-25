@@ -25,4 +25,10 @@ def add_task(title, description, due_date):
     conn.commit()
     conn.close()
 
-
+def get_tasks():
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM tasks')
+    tasks = cursor.fetchall()
+    conn.close()
+    return tasks
