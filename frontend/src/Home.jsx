@@ -47,6 +47,8 @@ function Home() {
       <h1>Home</h1>
       <p>Plan the day, keep tomorrow visible, and close the loop on what got done.</p>
     </div>
+    <br />
+    <br />
     <div className="row">
     <div className="date">
       <h2>Today</h2>
