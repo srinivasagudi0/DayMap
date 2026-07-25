@@ -12,6 +12,9 @@ function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  const [task, setTask] = useState("");
+  const addTask = () => fetch("/tasks", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: task }) });
+
   return (
     <main>
     <div className="title">
@@ -34,10 +37,10 @@ function Home() {
     </div>
     <div className="auto">
       <br />
-      <h2>Quick Add</h2>
+      <h2>Quick Add (Beta AI)</h2>
       <p>Add a new task here.</p>
-      <textarea placeholder="Enter task details..."></textarea>
-      <button>Add Task</button>
+      <textarea placeholder="Enter task details..." value={task} onChange={(event) => setTask(event.target.value)} />
+      <button onClick={addTask}>Add Task</button>
     </div>
     </main>
   );

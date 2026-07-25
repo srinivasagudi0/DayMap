@@ -9,8 +9,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             description TEXT,
-            due_date TEXT NOT NULL,
-            completed BOOLEAN NOT NULL DEFAULT 0
+            due_date TEXT NOT NULL
         )
     ''')
     conn.commit()
