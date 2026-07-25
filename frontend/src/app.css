@@ -68,6 +68,21 @@
     margin: 0;
 }
 
+.auto h2 {
+    background-image: linear-gradient(
+        135deg, 
+        #ff3b30 0%, 
+        #ff2d55 15%, 
+        #af52de 40%, 
+        #5856d6 60%, 
+        #007aff 80%, 
+        #5ac8fa 100%
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .auto h2,
 .auto p {
     margin: 0;
