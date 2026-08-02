@@ -28,18 +28,37 @@ def quick_add_with_ai(task):
 
 @app.route('/tasks', methods=['POST'])
 def create_task():
-    data = request.get_json()
-    task = data.get('text')
-    task_data = quick_add_with_ai(task)
+    data = request.get_json(silent=True) or {}
+
+    # had to do a lot of error handling to know what work s
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Request body must be a JSON object'}), 400
+
+    task = (data.get('text') or '').strip()
+
+    if not task:
+        return jsonify({'error': 'Missing task text'}), 400
+
+    try:
+        task_data = quick_add_with_ai(task)
+    except Exception as error:
+        return jsonify({'error': f'Could not create task with AI: {error}'}), 500
 
     # Parse the JSON response
-    task_json = json.loads(task_data)
+    try:
+        task_json = json.loads(task_data)
+    except json.JSONDecodeError:
+        return jsonify({'error': 'AI returned invalid JSON'}), 500
+
     title = task_json.get('title')
     description = task_json.get('description')
     due_date = task_json.get('due_date')
 
+    if not title or not due_date:
+        return jsonify({'error': 'AI response is missing a title or due date'}), 500
+
     add_task(title, description, due_date)
-    return jsonify({'message': 'Task created successfully'}), 201
+    return jsonify({'message': f'Task: {title} \n {description} \n {due_date}'}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)

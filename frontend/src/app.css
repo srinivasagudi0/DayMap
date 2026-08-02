@@ -143,4 +143,5 @@ body {
 
 .auto .task-message {
     text-align: center;
+    white-space: pre-line;
 }

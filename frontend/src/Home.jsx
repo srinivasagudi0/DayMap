@@ -28,12 +28,19 @@ function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: task }),
       });
-      const data = await response.json();
+      const responseText = await response.text();
+      let data = {};
+
+      try {
+        data = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        data = { error: responseText || "Server returned an invalid response" };
+      }
 
       if (!response.ok) throw new Error(data.error || "Could not add task");
 
       setTask("");
-      setMessage(data.message);
+      setMessage(data.message || "Task created successfully");
     } catch (error) {
       setMessage(error.message);
     } finally {
