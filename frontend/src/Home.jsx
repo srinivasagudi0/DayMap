@@ -66,7 +66,7 @@ function Home() {
     <div className="auto">
       <br />
       <h2>Quick Add (Beta AI)</h2>
-      <p>Add a new task here.</p>
+      <p style={ { textAlign: "center" } }>Add a new task here.</p>
       <textarea placeholder="Enter task details..." value={task} onChange={(event) => setTask(event.target.value)} />
       <button onClick={addTask} disabled={loading || !task.trim()}>
         {loading ? "Adding..." : "Add Task"}

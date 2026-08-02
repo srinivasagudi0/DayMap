@@ -1,3 +1,7 @@
+body {
+    background:#d3a304d4;
+}
+
 .title {
     text-align: center;
     font-size: 1.5rem;
@@ -44,14 +48,11 @@
 .completed-tasks {
     padding: 10px 30px;
     border-radius: 14px;
-    color: #16a34a;
+    color: #076e3b;
     font-weight: 600;
     background: linear-gradient(135deg, rgba(74, 222, 128, 0.85), rgba(5, 150, 105, 0.15));
     border: 1px solid rgba(34, 197, 94, 0.25);
-    box-shadow:
-        inset 0 2px 2px rgba(255, 255, 255, 0.8),
-        inset 0 -2px 4px rgba(5, 150, 105, 0.15);
-}
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.8), inset 0 -2px 4px rgba(5, 150, 105, 0.15);}
 
 .row {
     display:flex;
@@ -101,22 +102,13 @@
     height: 50px;
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid linear-gradient(135deg, #ff3b30 0%, #ff2d55 15%, #af52de 40%, #5856d6 60%, #007aff 80%, #5ac8fa 100%);
-    border-image: linear-gradient(135deg, #ff3b30 0%, #ff2d55 15%, #af52de 40%, #5856d6 60%, #007aff 80%, #5ac8fa 100%) 1;
-    background-color: white;
+    border: 1px solid #0e0000;
+    background-color: pink;
+    
 }
 
 .auto textarea:focus {
     outline: none;
-    background-image: linear-gradient(
-    135deg, 
-    #ff3b30 0%, 
-    #ff2d55 15%, 
-    #af52de 40%, 
-    #5856d6 60%, 
-    #007aff 80%, 
-    #5ac8fa 100%
-  );
     box-shadow: 0 0 5px rgba(234, 12, 145, 0.5);
 } 
 
