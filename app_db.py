@@ -32,3 +32,12 @@ def get_tasks():
     tasks = cursor.fetchall()
     conn.close()
     return tasks
+
+
+def get_num_tasks():
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) FROM tasks')
+    count = cursor.fetchone()[0]
+    conn.close()
+    return count

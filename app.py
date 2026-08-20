@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db
+from app_db import add_task, init_db, get_num_tasks
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -59,6 +59,10 @@ def create_task():
 
     add_task(title, description, due_date)
     return jsonify({'message': f'Task: {title} \n {description} \n {due_date}'}), 201
+
+@app.route('/tasks/count')
+def get_task_count():
+    return jsonify({'count': get_num_tasks()})
 
 if __name__ == '__main__':
     app.run(debug=True)

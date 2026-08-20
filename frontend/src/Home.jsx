@@ -20,7 +20,7 @@ function Home() {
     if (!task.trim() || loading) return;
 
     setLoading(true);
-    setMessage("");
+    setMessage(""); 
 
     try {
       const response = await fetch("/tasks", {
@@ -48,6 +48,16 @@ function Home() {
     }
   };
 
+
+  const [numTasks, setNumTasks] = useState(0);
+
+  useEffect(() => {
+    fetch('/tasks/count')
+      .then(response => response.json())
+      .then(data => setNumTasks(data.count))
+      .catch(error => console.error('Error fetching task count:', error));
+  }, []);
+
   return (
     <main>
     <div className="title">
@@ -63,7 +73,7 @@ function Home() {
     </div>
     <div className="pending-tasks">
       <h2>Pending Tasks</h2>
-      <p>There are no pending tasks.</p>  
+      <p style={{ textAlign: "bottom-vertical", fontSize: "1.25rem" }}>{numTasks} tasks</p>  
     </div>
     <div className="completed-tasks">
       <h2>Completed Tasks</h2>
