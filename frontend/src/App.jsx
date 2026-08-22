@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import Home from './Home'
-import Missions from './Missions'
+import Addtask from './AddTask'
 
 
 function App() {
@@ -9,12 +9,12 @@ function App() {
     <BrowserRouter>
       <nav>
         <Link to="/">DayMap</Link>
-        <Link to="/missions">Missions</Link>
+        <Link to="/add-task">Add Task</Link>
       </nav>
 
       <Routes>
         <Route path="/"  element={<Home />} />
-        <Route path="/missions" element={<Missions />} />
+        <Route path="/add-task" element={<Addtask />} />
         
       </Routes>
     </BrowserRouter>
