@@ -71,6 +71,18 @@ const [searchResults, setSearchResults] = useState([]);
       .catch(error => console.error('Error searching tasks:', error));
   }
 
+  const [dueToday, setDueToday] = useState([])
+
+  useEffect(() => {
+    fetch('/todays-tasks')
+      .then(response => response.json())
+      .then(data => setDueToday(data.due))
+      .catch(error => console.error('Error fetching tasks', error));
+  }, []
+
+  )
+
+
   return (
     <main>
     <div className="title">
@@ -116,10 +128,22 @@ const [searchResults, setSearchResults] = useState([]);
       </ul>
     </div>
     
+    <div className="today-tasks">
+      <h2>Today's Tasks</h2>
+      <ul>
+        {dueToday.map(task => (
+          <li key={task[0]}>
+            {task[1]} - {task[2]}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+
     <div className="footer">
       <p>Made with ❤️ by Srinivasa Gudi</p>
     </div>
-  
+
     </main>
   );
 }

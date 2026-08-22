@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -72,6 +72,11 @@ def search_task():
 
     results = search_tasks(keyword)
     return jsonify({'results': results}), 200
+
+@app.route('/todays-tasks')
+def due_tasks():
+    tasks = due_today()
+    return jsonify({"due": tasks})
 
 if __name__ == '__main__':
     app.run(debug=True)

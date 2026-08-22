@@ -53,3 +53,13 @@ def search_tasks(keyword):
     results = cursor.fetchall()
     conn.close()
     return results
+
+def due_today():
+    from datetime import datetime
+    today = datetime.now().strftime('%Y-%m-%d')
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM tasks WHERE due_date = ?', (today,))
+    results = cursor.fetchall()
+    conn.close()
+    return results
