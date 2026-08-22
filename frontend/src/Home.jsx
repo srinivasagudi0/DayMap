@@ -114,8 +114,12 @@ const [searchResults, setSearchResults] = useState([]);
           </li>
         ))}
       </ul>
-      
     </div>
+    
+    <div className="footer">
+      <p>Made with ❤️ by Srinivasa Gudi</p>
+    </div>
+  
     </main>
   );
 }

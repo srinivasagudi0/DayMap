@@ -205,3 +205,10 @@ body {
 .search ul {
     list-style: circle;
 }
+
+.footer {
+    text-align: right;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
