@@ -59,7 +59,7 @@ function Home() {
   }, []);
 
   const [search, setSearch] = useState("");
-const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const searchTask = () => {
     if (!search.trim()) return;
     
@@ -78,9 +78,19 @@ const [searchResults, setSearchResults] = useState([]);
       .then(response => response.json())
       .then(data => setDueToday(data.due))
       .catch(error => console.error('Error fetching tasks', error));
-  }, []
+  }, [])
 
-  )
+  const [numCompleted, setNumCompleted] = useState(0)
+
+  useEffect(() =>  {
+    fetch('/num/completed-tasks')
+      .then(response => response.json())
+      .then(data => {
+        setNumCompleted(data.num);
+      })
+      .catch(error => console.error("Error fetching data", data))
+  }, [])
+
 
 
   return (
@@ -102,7 +112,7 @@ const [searchResults, setSearchResults] = useState([]);
     </div>
     <div className="completed-tasks">
       <h2>Completed Tasks</h2>
-      <p>There are no completed tasks.</p>
+      <p style={{ textAlign: "bottom-vertical",fontSize: "1.25rem"}}>{numCompleted} tasks</p>
     </div>
     </div>
     <div className="auto">

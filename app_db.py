@@ -13,10 +13,22 @@ def init_db():
             due_date TEXT NOT NULL
         )
     ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS completed_tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            description TEXT,
+            priority TEXT,
+            due_date TEXT NOT NULL
+        )
+        ''')
+
     conn.commit()
     conn.close()
 
 def add_task(title, description,priority, due_date):
+    # add new tasks into the tasks table with all 4 categoriws
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
     cursor.execute('''
@@ -27,6 +39,7 @@ def add_task(title, description,priority, due_date):
     conn.close()
 
 def get_tasks():
+    # get all the the active (pending) tasks
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM tasks')
@@ -36,6 +49,7 @@ def get_tasks():
 
 
 def get_num_tasks():
+    # get num of pending tasks
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
     cursor.execute('SELECT COUNT(*) FROM tasks')
@@ -44,6 +58,7 @@ def get_num_tasks():
     return count
 
 def search_tasks(keyword):
+    # return tasks that contain the keyword
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
     cursor.execute('''
@@ -55,6 +70,7 @@ def search_tasks(keyword):
     return results
 
 def due_today():
+    # check the date today and see what due_date matches with today and return the matches
     from datetime import datetime
     today = datetime.now().strftime('%Y-%m-%d')
     conn = sqlite3.connect('app.db')
@@ -63,3 +79,21 @@ def due_today():
     results = cursor.fetchall()
     conn.close()
     return results
+
+def get_completed_tasks():
+    # get all the tasks in the completed 
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    conn.execute('SELECT * FROM completed_tasks')
+    result = cursor.fetchall()
+    conn.close()
+    return result
+
+def num_completed_task():
+    #number of completed tasks
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    conn.execute('SELECT COUNT(*) FROM tasks')
+    count = cursor.fetchall()
+    conn.close()
+    return count
