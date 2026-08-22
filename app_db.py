@@ -41,3 +41,14 @@ def get_num_tasks():
     count = cursor.fetchone()[0]
     conn.close()
     return count
+
+def search_tasks(keyword):
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT * FROM tasks
+        WHERE title LIKE ? OR description LIKE ?
+    ''', (f'%{keyword}%', f'%{keyword}%'))
+    results = cursor.fetchall()
+    conn.close()
+    return results

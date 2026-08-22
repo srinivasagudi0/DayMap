@@ -58,6 +58,19 @@ function Home() {
       .catch(error => console.error('Error fetching task count:', error));
   }, []);
 
+  const [search, setSearch] = useState("");
+const [searchResults, setSearchResults] = useState([]);
+  const searchTask = () => {
+    if (!search.trim()) return;
+    
+    fetch(`/tasks/search?keyword=${encodeURIComponent(search)}`)
+      .then(response => response.json())
+      .then(data => {
+        setSearchResults(data.results);
+      })
+      .catch(error => console.error('Error searching tasks:', error));
+  }
+
   return (
     <main>
     <div className="title">
@@ -89,6 +102,19 @@ function Home() {
         {loading ? "Adding..." : "Add Task"}
       </button>
       {message && <p className="task-message" role="status">{message}</p>}
+    </div>
+    <div className="search">
+      <h2>Search</h2>
+      <textarea placeholder="Search with a keyword..." value={search} onChange={(event) => setSearch(event.target.value)} />
+      <button onClick={searchTask} disabled={!search.trim()}>🔎</button>
+      <ul>
+        {searchResults.map(task => (
+          <li key={task[0]}>
+            {task[1]} - {task[2]}
+          </li>
+        ))}
+      </ul>
+      
     </div>
     </main>
   );
