@@ -14,7 +14,7 @@ init_db()
 def quick_add_with_ai(task):
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     prompt = '''Create a json that is like this:
-    {"title": "Task title", "description": "Task description", "due_date": "YYYY-MM-DD"}
+    {"title": "Task title", "description": "Task description", "priority": "low|medium|high", "due_date": "YYYY-MM-DD"}
     Just vgive pure working json without any explanation or text. The task is:
     ''' + task + f" as of {datetime.now().strftime('%Y-%m-%d')}"
 
@@ -53,11 +53,12 @@ def create_task():
     title = task_json.get('title')
     description = task_json.get('description')
     due_date = task_json.get('due_date')
+    priority = task_json.get('priority')
 
     if not title or not due_date:
         return jsonify({'error': 'AI response is missing a title or due date'}), 500
 
-    add_task(title, description, due_date)
+    add_task(title, description, priority, due_date)
     return jsonify({'message': f'Task: {title} \n {description} \n {due_date}'}), 201
 
 @app.route('/tasks/count')

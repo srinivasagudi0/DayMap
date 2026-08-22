@@ -9,19 +9,20 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             description TEXT,
+            priority TEXT,
             due_date TEXT NOT NULL
         )
     ''')
     conn.commit()
     conn.close()
 
-def add_task(title, description, due_date):
+def add_task(title, description,priority, due_date):
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT INTO tasks (title, description, due_date)
-        VALUES (?, ?, ?)
-    ''', (title, description, due_date))
+        INSERT INTO tasks (title, description, priority, due_date)
+        VALUES (?, ?, ?, ?)
+    ''', (title, description, priority, due_date))
     conn.commit()
     conn.close()
 
