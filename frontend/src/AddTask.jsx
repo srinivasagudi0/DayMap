@@ -54,7 +54,7 @@ function Addtask() {
   const handleManualSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !description.trim() || !level.trim() || !dueDate()) {
+    if (!title.trim() || !description.trim() || !level.trim() || !dueDate.trim()) {
       setMessage("Please fill all the feilds")
     }
 

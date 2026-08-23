@@ -85,6 +85,7 @@ def num_completed():
 
 @app.route('/tasks/manual-add', methods=['POST'])
 def manual_add():
+    print("Received the meessage")
     data = request.get_json() or {}
 
     title = data.get('title')
@@ -97,9 +98,9 @@ def manual_add():
 
     try:
         add_task(title, description, priority, due_date )
-        return jsonify({"ok": True, "messaage": "Task was succesfully saved."})
+        return jsonify({"ok": True, "message": "Task was succesfully saved."})
     except Exception as e:
-        return jsonify({"ok": False, "error": e})
+        return jsonify({"ok": False, "error": str(e)})
 
 
 if __name__ == '__main__':
