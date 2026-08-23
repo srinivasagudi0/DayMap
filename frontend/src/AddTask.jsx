@@ -34,7 +34,7 @@ function Addtask() {
       setTask("");
       setMessage(data.message || "Task created successfully");
     } catch (error) {
-      setMessage(error.message);
+      setMessage(error);
     } finally {
       setLoading(false);
     }
@@ -50,6 +50,53 @@ function Addtask() {
   ];
   const [dueDate, setDueDate] = useState("");
 
+
+  const handleManualSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!title.trim() || !description.trim() || !level.trim() || !dueDate()) {
+      setMessage("Please fill all the feilds")
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    try {
+    // Make sure this route matches your Flask blueprint route
+    const response = await fetch("/tasks/manual-add", {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify({ 
+        title: title,
+        description: description,
+        priority: level,  // level -> priority
+        due_date: dueDate
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to save manual task")
+    }
+
+    setTitle("");
+    setDescription("");
+    setLevel("");
+    setDueDate("");
+
+    setMessage(data.message || "Manual task created Successful");
+
+  } catch(error) {
+    setMessage(error.message);
+  }
+  finally {
+    setLoading(false);
+  }
+};
+
   return (
     <main>
      <div className="auto">
@@ -64,7 +111,7 @@ function Addtask() {
     </div>
 
     <div className="manual-add">
-      <form>
+      <form onSubmit={handleManualSubmit}> 
         <label>
           Title:
             <input

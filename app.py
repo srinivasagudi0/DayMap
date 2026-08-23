@@ -83,5 +83,24 @@ def num_completed():
     num = num_completed_task()
     return jsonify({"num": len(num)})
 
+@app.route('/tasks/manual-add', methods=['POST'])
+def manual_add():
+    data = request.get_json() or {}
+
+    title = data.get('title')
+    description = data.get('description')
+    priority = data.get('priority')
+    due_date = data.get('due_date')
+
+    if not title or not description or not priority or not due_date:
+        return {"ok": False}
+
+    try:
+        add_task(title, description, priority, due_date )
+        return jsonify({"ok": True, "messaage": "Task was succesfully saved."})
+    except Exception as e:
+        return jsonify({"ok": False, "error": e})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
