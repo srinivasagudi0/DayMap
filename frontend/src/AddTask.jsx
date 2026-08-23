@@ -39,7 +39,19 @@ function Addtask() {
       setLoading(false);
     }
   };
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [level, setLevel] = useState("");
+  const priorities = [
+    {id: "low", name: "Low"},
+    {id: "medium", name: "Medium"},
+    {id: "high", name: "High"}
+  ];
+  const [dueDate, setDueDate] = useState("");
+
   return (
+    <main>
      <div className="auto">
       <br />
       <h2>Quick Add (Beta AI)</h2>
@@ -50,6 +62,52 @@ function Addtask() {
       </button>
       {message && <p className="task-message" role="status">{message}</p>}
     </div>
+
+    <div className="manual-add">
+      <form>
+        <label>
+          Title:
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />      
+        </label>
+        <label>
+          Description:
+          <input 
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            />
+          </label>
+        <label>
+          Priority:
+         <select value={level} onChange={(e) => setLevel(e.target.value)}>
+          <option value="">--Select Priority--</option>
+
+          {priorities.map((priority) => (
+            <option key={priority.id} value={priority.id}>
+              {priority.name}
+            </option>
+            ))}
+         </select>
+        </label>
+        <label>
+          Due Date:
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            />
+        </label>
+
+        <button type="submit">Save Task Manually</button>
+
+      </form>
+    </div>
+
+    </main>
   );
 }
 
