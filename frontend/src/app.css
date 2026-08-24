@@ -236,3 +236,47 @@ body {
 .today-tasks{
     font-size: 1.6rem;
 }
+
+.manual-add {
+    background:#03ea7367;
+}
+
+.manual-add label {
+    text-align: center;
+    font-size: 1.4rem;
+}
+.manual-add select {
+    font-size: 1.1rem;
+    margin-right: 30px;
+}
+
+.manual-add input {
+    background-color: pink;
+    margin: 0.5rem;
+    height: 30px;
+    width: 200px;
+    font-size: 1.3rem;
+}
+
+.manual-add h1 {
+    text-align: center; 
+    font-size: 2.5rem;
+    background-image: linear-gradient(rgb(136, 17, 145),rgb(155, 16, 16), rgb(172, 206, 6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.manual-add button {
+    margin-left: 47%;
+    border-radius: 3rem;
+    margin-bottom: 1%;
+    font-size: 1rem;
+    color:#044dac;
+    background-color: peachpuff;
+    margin-top: 1%;
+}
+
+.manual-add button:hover {
+    background-color: rgb(6, 247, 6);
+    transform: scale(1.1, 1.1);
+}

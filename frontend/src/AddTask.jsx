@@ -111,13 +111,15 @@ function Addtask() {
     </div>
 
     <div className="manual-add">
+      <h1>Manual Add</h1>
       <form onSubmit={handleManualSubmit}> 
-        <label>
+        <label   style={{marginLeft: '350px'}}>
           Title:
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+
             />      
         </label>
         <label>
@@ -128,6 +130,7 @@ function Addtask() {
             onChange={(e) => setDescription(e.target.value)}
             />
           </label>
+
         <label>
           Priority:
          <select value={level} onChange={(e) => setLevel(e.target.value)}>
@@ -148,6 +151,7 @@ function Addtask() {
             onChange={(e) => setDueDate(e.target.value)}
             />
         </label>
+        <br />
 
         <button type="submit">Save Task Manually</button>
 
