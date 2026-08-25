@@ -96,9 +96,15 @@ function Addtask() {
     setLoading(false);
   }
 };
+// need to tyle title to title 2 to get a brnad new look.
 
   return (
     <main>
+      <div class="title">
+        <h1>Add Task</h1>
+        <p>Add tasks with AI or manually</p>
+      </div>
+    
      <div className="auto">
       <br />
       <h2>Quick Add (Beta AI)</h2>
@@ -153,7 +159,7 @@ function Addtask() {
         </label>
         <br />
 
-        <button type="submit" disabled={loading || !title.trim() || !disabled.trim() || !dueDate.trim}>
+        <button type="submit" disabled={loading || !title.trim() || !description.trim() || !dueDate.trim() || !level.trim()}>
           Save Task Manually
         </button>
 
