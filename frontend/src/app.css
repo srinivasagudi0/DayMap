@@ -280,3 +280,8 @@ body {
     background-color: rgb(6, 247, 6);
     transform: scale(1.1, 1.1);
 }
+
+.manual-add button:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}

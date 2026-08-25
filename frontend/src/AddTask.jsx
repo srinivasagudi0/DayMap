@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 
 
@@ -153,7 +153,9 @@ function Addtask() {
         </label>
         <br />
 
-        <button type="submit">Save Task Manually</button>
+        <button type="submit" disabled={loading || !title.trim() || !disabled.trim() || !dueDate.trim}>
+          Save Task Manually
+        </button>
 
       </form>
     </div>
