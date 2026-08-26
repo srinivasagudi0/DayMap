@@ -4,7 +4,7 @@ body {
 
 .title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 3rem;
     margin: 0;
     background-image: linear-gradient(135deg, #ffb15e 0%, #ff7a59 20%, #ff5c8d 45%, #d946ef 70%, #8b5cf6 100%);
     border: black 1px solid;
@@ -284,4 +284,16 @@ body {
 .manual-add button:disabled {
     cursor: not-allowed;
     opacity: 0.3;
+}
+
+
+.title2 {
+    text-align: center;
+    font-size: 2rem;
+    margin: 0;
+    border: white 2px solid;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    color: White;
+    background-image: linear-gradient(360deg, blue, rgb(8, 141, 141), rgb(137, 119, 119), green);
 }

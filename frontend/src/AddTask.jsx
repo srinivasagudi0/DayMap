@@ -100,7 +100,7 @@ function Addtask() {
 
   return (
     <main>
-      <div class="title">
+      <div class="title2">
         <h1>Add Task</h1>
         <p>Add tasks with AI or manually</p>
       </div>
