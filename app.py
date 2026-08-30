@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -102,6 +102,10 @@ def manual_add():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
 
+@app.route('/upcoming-tasks')
+def due_upcoming():
+    upcoming = due_upcoming()
+    return jsonify({"tasks": upcoming})
 
 if __name__ == '__main__':
     app.run(debug=True)
