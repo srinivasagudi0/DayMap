@@ -8,7 +8,8 @@ export default defineConfig({
       "/api": "http://localhost:5000",
       "/tasks": "http://localhost:5000",
       "/todays-tasks": "http://localhost:5000",
-      "/num/completed-tasks": "http://localhost:5000"
+      "/num/completed-tasks": "http://localhost:5000",
+      "/upcoming-tasks": "http://localhost:5000",
     },
   },
 });

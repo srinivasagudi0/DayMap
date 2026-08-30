@@ -103,7 +103,7 @@ def manual_add():
         return jsonify({"ok": False, "error": str(e)})
 
 @app.route('/upcoming-tasks')
-def due_upcoming():
+def get_upcoming():
     upcoming = due_upcoming()
     return jsonify({"tasks": upcoming})
 

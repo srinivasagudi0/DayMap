@@ -101,11 +101,11 @@ def num_completed_task():
 def due_upcoming():
     # due upcoming and not today
     from datetime import datetime
-    today = datetime.now()
+    today = datetime.now().strftime('%Y-%m-%d')
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
     today = datetime.now().strftime('%Y-%m-%d')
-    cursor.execute('SELECT * FROM tasks WHERE due_date !=?', (today, ))
+    cursor.execute('SELECT * FROM tasks WHERE due_date > ?', (today, ))
     results = cursor.fetchall()
     conn.close()
     return results
