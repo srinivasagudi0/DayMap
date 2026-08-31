@@ -31,7 +31,7 @@ function Pending() {
         <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
             {dueToday.map(task => (
                 <li key={task[0]}>
-                    {task[1]} - {task[2]}
+                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <caption style={{"display": "grid", "textAlign": "center"}}>{task[3]} {task[4]}</caption>
                 </li>
             ))}
         </ul>
@@ -42,7 +42,7 @@ function Pending() {
         <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
             {dueLater.map(task => (
                 <li key={task[0]}>
-                    {task[1]} - {task[2]}
+                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <caption style={{"display": "grid", "textAlign": "center"}}>{task[3]} {task[4]}</caption>
                 </li>
             ))}
         </ul>
