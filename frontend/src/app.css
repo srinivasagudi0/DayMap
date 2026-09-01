@@ -334,3 +334,30 @@ body {
     color: white;
     transform: scale(1.2);
 }
+
+.complete-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #cccccc;
+    border-top-color: green;
+    border-radius: 50%;
+    animation: complete-spin 0.7s linear infinite;
+}
+
+.completed-check:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+.complete-message {
+    color: green;
+    text-align: center;
+    font-weight: bold;
+}
+
+@keyframes complete-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

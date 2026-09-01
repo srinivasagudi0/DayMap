@@ -18,7 +18,15 @@ function Pending() {
         .catch(error => console.error('Error fetching tasks', error));
     }, []);
 
-    async function completeTask(taskId) {
+    const [completingId, setCompletingId] = useState(null);
+    const [completeMessage, setCompleteMessage] = useState("");
+    async function completeTask(taskId, taskTitle) {
+        const confirmed = window.confirm(`Completed "${taskTitle}"?`);
+
+        if (!confirmed) return;
+
+        setCompletingId(taskId);
+
         try {
             const response = await fetch('/complete-task', {
                 method: 'POST',
@@ -31,9 +39,15 @@ function Pending() {
                 throw new Error(data.error || 'Could not complete task');
             }
 
+            setCompleteMessage(`${taskTitle} completed`)
+            await new Promise(resolve => setTimeout(resolve, 500));
             setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
-        } catch (error) {
-            console.error('Error completing task', error);
+            setTimeout(() => setCompleteMessage(""), 2000);
+        } catch(error) {
+            console.error('Error completong task', error);
+            setCompleteMessage(error.message);
+        } finally {
+            setCompletingId(null);
         }
     }
    
@@ -52,13 +66,21 @@ function Pending() {
                 <li key={task[0]}>
                     <button
                         className="completed-check"
-                        onClick={() => completeTask(task[0])}
+                        onClick={() => completeTask(task[0], task[1])}
+                        disabled={completingId === task[0]}
                         aria-label={`Complete ${task[1]}`}
                     >
-                        ✔️
+                        {completingId === task[0]
+                            ? <span className="complete-spinner" />
+                            : "✔️"
+                        }
                     </button>
                     <strong>{task[1]}</strong> | <i>{task[2]}</i> <caption style={{"display": "grid", "textAlign": "center"}}>{task[3]} {task[4]}</caption>
+                    {completeMessage && (
+                        <p className="complete-message" role="status">{completeMessage}</p>
+                    )}
                 </li>
+                
             ))}
         </ul>
     </div>
