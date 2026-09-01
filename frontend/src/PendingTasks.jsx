@@ -17,6 +17,25 @@ function Pending() {
         .then(data => setLater(data.tasks))
         .catch(error => console.error('Error fetching tasks', error));
     }, []);
+
+    async function completeTask(taskId) {
+        try {
+            const response = await fetch('/complete-task', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: taskId }),
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Could not complete task');
+            }
+
+            setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
+        } catch (error) {
+            console.error('Error completing task', error);
+        }
+    }
    
     return (
     <main>
@@ -31,7 +50,11 @@ function Pending() {
         <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
             {dueToday.map(task => (
                 <li key={task[0]}>
-                    <button className="completed-check">
+                    <button
+                        className="completed-check"
+                        onClick={() => completeTask(task[0])}
+                        aria-label={`Complete ${task[1]}`}
+                    >
                         ✔️
                     </button>
                     <strong>{task[1]}</strong> | <i>{task[2]}</i> <caption style={{"display": "grid", "textAlign": "center"}}>{task[3]} {task[4]}</caption>

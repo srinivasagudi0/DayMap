@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -81,7 +81,7 @@ def due_tasks():
 @app.route('/num/completed-tasks')
 def num_completed():
     num = num_completed_task()
-    return jsonify({"num": len(num)})
+    return jsonify({"num": num})
 
 @app.route('/tasks/manual-add', methods=['POST'])
 def manual_add():
@@ -101,6 +101,27 @@ def manual_add():
         return jsonify({"ok": True, "message": "Task was succesfully saved."})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
+
+
+
+@app.route('/complete-task', methods=['POST'])
+def complete_a_task():
+    data = request.get_json(silent=True) or {}
+    task_id = data.get('id')
+
+    if task_id is None:
+        return jsonify({"ok": False, "error": "Missing task id"}), 400
+
+    try:
+        completed = add_completed_task(task_id)
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+    if not completed:
+        return jsonify({"ok": False, "error": "Task not found"}), 404
+
+    return jsonify({"ok": True, "message": "Task completed"})
+
 
 @app.route('/upcoming-tasks')
 def get_upcoming():

@@ -10,6 +10,7 @@ export default defineConfig({
       "/todays-tasks": "http://localhost:5000",
       "/num/completed-tasks": "http://localhost:5000",
       "/upcoming-tasks": "http://localhost:5000",
+      "/complete-task": "http://localhost:5000",
     },
   },
 });

@@ -93,8 +93,8 @@ def num_completed_task():
     #number of completed tasks
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
-    conn.execute('SELECT COUNT(*) FROM tasks')
-    count = cursor.fetchall()
+    cursor.execute('SELECT COUNT(*) FROM completed_tasks')
+    count = cursor.fetchone()[0]
     conn.close()
     return count
 
@@ -109,3 +109,26 @@ def due_upcoming():
     results = cursor.fetchall()
     conn.close()
     return results
+
+def add_completed_task(task_id):
+    conn = sqlite3.connect('app.db')
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            'SELECT title, description, priority, due_date FROM tasks WHERE id = ?',
+            (task_id,)
+        )
+        task = cursor.fetchone()
+
+        if task is None:
+            return False
+
+        cursor.execute('''
+            INSERT INTO completed_tasks (title, description, priority, due_date)
+            VALUES (?, ?, ?, ?)
+        ''', task)
+        cursor.execute('DELETE FROM tasks WHERE id = ?', (task_id,))
+        conn.commit()
+        return True
+    finally:
+        conn.close()
