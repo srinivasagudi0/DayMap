@@ -79,6 +79,7 @@ function Pending() {
                     {completeMessage && (
                         <p className="complete-message" role="status">{completeMessage}</p>
                     )}
+                    <button className="delete-button">🗑️</button>
                 </li>
                 
             ))}
