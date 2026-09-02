@@ -47,6 +47,7 @@ function Pending() {
             await new Promise(resolve => setTimeout(resolve, 500));
             setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
             setTimeout(() => setCompleteMessage(""), 2000);
+            window.location.reload();
         } catch(error) {
             console.error('Error completong task', error);
             setCompleteMessage(error.message);
@@ -80,6 +81,7 @@ function Pending() {
             await new Promise(resolve => setTimeout(resolve, 500));
             setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
             setTimeout(() => setDeleteMessage(""), 2000);
+            window.location.reload();
         } catch(error) {
             console.error('Error deleting the task', error.message);
             setDeleteMessage(error.message);
@@ -98,6 +100,9 @@ function Pending() {
     
     <div className="today-tasks">
         <h2>Today's Tasks</h2>
+        {deleteMessage && (
+                        <p className="delete-message" role="status">{deleteMessage}</p>
+                    )}
         <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
             {dueToday.map(task => (
                 <li key={task[0]}>
@@ -129,9 +134,7 @@ function Pending() {
                         }
                     </button>
 
-                    {deleteMessage && (
-                        <p className="delete-message" role="status">{deleteMessage}</p>
-                    )}
+                    
                     
                 </li>
                 
@@ -158,6 +161,19 @@ function Pending() {
                     </button>
 
                     <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
+
+                    <button
+                    className="delete-button"
+                    onClick={() => deleteTask(task[0], task[1])}
+                    disabled={deletingId === task[0]}
+                    aria-label={`Complete ${task[1]}`}
+                    >
+                        {deletingId ===task[0]
+                            ?<span className="complete-spinner" />
+                            : "🗑️"
+                        }
+                    </button>
+
                 </li>
             ))}
         </ul>
