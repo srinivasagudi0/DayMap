@@ -41,6 +41,9 @@ function Home() {
 
       setTask("");
       setMessage(data.message || "Task created successfully");
+      const timer = setTimeout(() => {
+      window.location.reload();
+      }, 2000);
     } catch (error) {
       setMessage(error.message);
     } finally {
