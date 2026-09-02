@@ -92,8 +92,14 @@ function Pending() {
 
     return (
     <main>
-    <div className="title">
+    <div className="title pending-title-box" style={{"backgroundImage": "linear-gradient(135deg, #3dd6d0 0%, #2878ff 20%, #6d45e8 45%, #e749ae 70%, #ff8a4c 100%)"}}>
+        <div className="task-badge today-badge">
+            Today: {dueToday.length}
+        </div>
         <h1>Pending Tasks</h1>
+        <div className="task-badge upcoming-badge">
+            Upcoming: {dueLater.length}
+        </div>
         <p>See your tasks here!</p>
     </div>
     <br />

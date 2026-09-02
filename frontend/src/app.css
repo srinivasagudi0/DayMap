@@ -398,3 +398,32 @@ body {
     text-align: center;
     font-weight: bold;
 }
+
+.pending-title-box {
+    position: relative;
+    margin: 30px auto;
+    padding: 28px 20px;
+    text-align: center;
+}
+
+.task-badge{
+  position: absolute;
+  top: 50%;
+  padding: 8px 14px;
+  border: 2px solid black;
+  background: rgba(28, 141, 152, 0.466);
+  font-weight: 700;
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
+  white-space: nowrap;
+  color: black;
+  font-size: 2rem;
+}
+
+.today-badge {
+    left: 20px;
+    transform: translateY(-50%) rotate(-35deg);
+}
+.upcoming-badge {
+    right: 20px;
+    transform: translateY(-50%) rotate(35deg)
+}
