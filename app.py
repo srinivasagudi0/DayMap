@@ -126,14 +126,14 @@ def complete_a_task():
 @app.route('/delete-task', methods=['POST'])
 def delete_a_taks():
     data = request.get_json(silent=True) or {}
-    task_id = data.get('`id')
+    task_id = data.get('id')
 
     if task_id is None:
         return jsonify({"ok": False, "error": "Missing task id"}), 400
     try:
         delete = delete_task(task_id)
     except Exception as error:
-        return jsonify({"ok": False, "error": error})
+        return jsonify({"ok": False, "error": str(error)})
     if not delete:
         return jsonify({"ok": True, "error": 'Task not found'})
     return jsonify({"ok": True, "message": "Task deleted"})
