@@ -141,9 +141,22 @@ function Pending() {
     
     <div className="upcoming-tasks">
         <h2>Upcoming Tasks</h2>
-        <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
+        <ul>
             {dueLater.map(task => (
                 <li key={task[0]}>
+
+                    <button
+                    className="completed-check"
+                    onClick={() => completeTask(task[0], task[1])}
+                    disabled={completingId === task[0]}
+                    aria-label={`Completed ${task[1]}`}
+                    >
+                    {completingId === task[0]
+                        ? <span className="complete-spinner" />
+                        : "☑️"
+                    }
+                    </button>
+
                     <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
                 </li>
             ))}

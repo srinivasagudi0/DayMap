@@ -314,25 +314,39 @@ body {
     color: rgb(142, 23, 150);
 }
 
+.today-tasks li,
+.upcoming-tasks li {
+    position: relative;
+    min-height: 60px;
+    padding: 10px 70px;
+    box-sizing: border-box;
+}
+
+.upcoming-tasks li {
+    margin-bottom: 20px;
+    border-radius: 50px;
+    border: 2px solid #2c3e50;
+}
+
 .completed-check {
-    float: left;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     color: green;
     cursor: pointer;
-    margin-right: 10px;
     transition: 0.2s;
-
-    margin-left: -35px;
-    margin-top: 4px;
+    margin: 0;
 }
 
 .completed-check:hover {
     background: green;
     color: white;
-    transform: scale(1.2);
+    transform: translateY(-50%) scale(1.1);
 }
 
 .complete-spinner {
