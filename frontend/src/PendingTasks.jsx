@@ -4,22 +4,26 @@ function Pending() {
     const [dueToday, setDueToday] = useState([]);
 
     useEffect(() => {
-        fetch('/todays-tasks')
-            .then(response => response.json())
-            .then(data => setDueToday(data.due))
-            .catch(error => console.error('Error fetching tasks', error));
-    }, []);
-
-    const [dueLater, setLater] = useState([]);
-    useEffect(() => {
-         fetch('/upcoming-tasks')
-        .then(response => response.json())
-        .then(data => setLater(data.tasks))
+    fetch('/todays-tasks')
+        .then(res => res.headers.get("content-type")?.includes("json") ? res.json() : [])
+        .then(data => setDueToday(data.due || []))
         .catch(error => console.error('Error fetching tasks', error));
     }, []);
 
     const [completingId, setCompletingId] = useState(null);
     const [completeMessage, setCompleteMessage] = useState("");
+
+
+    const [dueLater, setLater] = useState([]);
+    useEffect(() => {
+     fetch('/upcoming-tasks')
+        .then(res => res.headers.get("content-type")?.includes("json") ? res.json() : [])
+        .then(data => setLater(data.tasks || []))
+        .catch(error => console.error('Error fetching tasks', error));
+    }, []);
+
+
+    
     async function completeTask(taskId, taskTitle) {
         const confirmed = window.confirm(`Completed "${taskTitle}"?`);
 
@@ -51,6 +55,39 @@ function Pending() {
         }
     }
    
+    const [deletingId, setDeletingId] = useState(null)
+    const [deleteMessage, setDeleteMessage] = useState("")
+    async function deleteTask(taskId, taskTitle) {
+        const confirmed = window.confirm(`Deleted ${taskTitle}`);
+
+        if (!confirmed) return;
+
+        setDeletingId(taskId);
+
+        try {
+            const response = await fetch('/delete-task', {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({id: taskId}),
+            });
+            const data = await response.json();
+
+            if (!response.ok ) {
+                throw new Error(data.error || 'Could not delete task');
+            }
+            
+            setDeleteMessage(`${taskTitle} deleted`);
+            await new Promise(resolve => setTimeout(resolve, 500));
+            setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
+            setTimeout(() => setDeleteMessage(""), 2000);
+        } catch(error) {
+            console.error('Error deleting the task', error.message);
+            setDeleteMessage(error.message);
+        } finally {
+            setDeletingId(null);
+        }
+    }
+
     return (
     <main>
     <div className="title">
@@ -75,11 +112,27 @@ function Pending() {
                             : "✔️"
                         }
                     </button>
-                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <caption style={{"display": "grid", "textAlign": "center"}}>{task[3]} {task[4]}</caption>
+                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
                     {completeMessage && (
                         <p className="complete-message" role="status">{completeMessage}</p>
+                    
                     )}
-                    <button className="delete-button">🗑️</button>
+                    <button 
+                    className="delete-button"
+                    onClick={() => deleteTask(task[0], task[1])}
+                    disabled={deletingId === task[0]}
+                    aria-label={`Complete ${task[1]}`}
+                    >
+                        {deletingId === task[0]
+                            ? <span className="complete-spinner" />
+                            : "🗑️"
+                        }
+                    </button>
+
+                    {deleteMessage && (
+                        <p className="delete-message" role="status">{deleteMessage}</p>
+                    )}
+                    
                 </li>
                 
             ))}
@@ -91,7 +144,7 @@ function Pending() {
         <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
             {dueLater.map(task => (
                 <li key={task[0]}>
-                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <caption style={{"display": "grid", "textAlign": "center"}}>{task[3]} {task[4]}</caption>
+                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
                 </li>
             ))}
         </ul>

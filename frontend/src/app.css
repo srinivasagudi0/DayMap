@@ -378,3 +378,9 @@ body {
     transform: scale(1.2);
     background-color: red;
 }
+
+.delete-message {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}

@@ -11,6 +11,7 @@ export default defineConfig({
       "/num/completed-tasks": "http://localhost:5000",
       "/upcoming-tasks": "http://localhost:5000",
       "/complete-task": "http://localhost:5000",
+      "/delete-task": "http://localhost:5000",
     },
   },
 });

@@ -132,3 +132,11 @@ def add_completed_task(task_id):
         return True
     finally:
         conn.close()
+
+def delete_task(id):
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM tasks where id = ?', (id,))
+    conn.commit()
+    conn.close()
+    return True
