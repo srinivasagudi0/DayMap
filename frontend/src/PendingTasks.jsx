@@ -22,6 +22,14 @@ function Pending() {
         .catch(error => console.error('Error fetching tasks', error));
     }, []);
 
+    const [completedTasks, setCompletedTasks] = useState([])
+    useEffect(() => {
+        fetch('/completing-tasks')
+            .then(response => response.headers.get("content-type")?.includes("json") ? response.json() : [])
+            .then(data => setCompletedTasks(data.completed))
+            .catch(error => console.error('Error fetching tasks', error));
+    }, []);
+
 
     
     async function completeTask(taskId, taskTitle) {
@@ -49,7 +57,7 @@ function Pending() {
             setTimeout(() => setCompleteMessage(""), 2000);
             window.location.reload();
         } catch(error) {
-            console.error('Error completong task', error);
+            console.error('Error completing task', error);
             setCompleteMessage(error.message);
         } finally {
             setCompletingId(null);
@@ -172,7 +180,7 @@ function Pending() {
                     className="delete-button"
                     onClick={() => deleteTask(task[0], task[1])}
                     disabled={deletingId === task[0]}
-                    aria-label={`Complete ${task[1]}`}
+                    aria-label={`Delete ${task[1]}`}
                     >
                         {deletingId ===task[0]
                             ?<span className="complete-spinner" />
@@ -183,6 +191,12 @@ function Pending() {
                 </li>
             ))}
         </ul>
+    </div>
+    <div className="completed-tasks">
+        <h3>Completed Tasks</h3>
+        <p>{completedTasks}</p>
+
+
     </div>
     </main>
     );

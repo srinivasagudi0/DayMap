@@ -140,3 +140,14 @@ def delete_task(id):
     conn.commit()
     conn.close()
     return True
+
+
+def get_completed_tasks():
+    # gets completed tasks, what did. you think
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor
+    cursor.execute('SELECT * FROM complete_tasks')
+    tasks = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return tasks
