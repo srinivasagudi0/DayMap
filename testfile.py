@@ -1,4 +1,5 @@
-from app_db import num_completed_task as nc
+from app_db import get_completed_tasks
 
-tst = nc()
-print(len(tst))
+results = get_completed_tasks()
+
+print(results)

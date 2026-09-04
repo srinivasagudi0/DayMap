@@ -84,10 +84,10 @@ def get_completed_tasks():
     # get all the tasks in the completed 
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
-    conn.execute('SELECT * FROM completed_tasks')
-    result = cursor.fetchall()
+    cursor.execute('SELECT * FROM completed_tasks')
+    results = cursor.fetchall()
     conn.close()
-    return result
+    return results
 
 def num_completed_task():
     #number of completed tasks
@@ -142,12 +142,3 @@ def delete_task(id):
     return True
 
 
-def get_completed_tasks():
-    # gets completed tasks, what did. you think
-    conn = sqlite3.connect('app.db')
-    cursor = conn.cursor
-    cursor.execute('SELECT * FROM complete_tasks')
-    tasks = cursor.fetchall()
-    conn.commit()
-    conn.close()
-    return tasks

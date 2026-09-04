@@ -146,7 +146,7 @@ def get_upcoming():
 @app.route("/completed-tasks")
 def get_completed():
     completed = get_completed_tasks()
-    return jsonify({"completed": completed})
+    return jsonify({"completed": completed, "ok": True})
 
 if __name__ == '__main__':
     app.run(debug=True)

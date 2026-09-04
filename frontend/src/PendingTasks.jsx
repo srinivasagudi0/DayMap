@@ -23,13 +23,23 @@ function Pending() {
     }, []);
 
     const [completedTasks, setCompletedTasks] = useState([])
-    useEffect(() => {
-        fetch('/completing-tasks')
-            .then(response => response.headers.get("content-type")?.includes("json") ? response.json() : [])
-            .then(data => setCompletedTasks(data.completed))
-            .catch(error => console.error('Error fetching tasks', error));
-    }, []);
+    const [completedError, setCompletedError] = useState("")
+    function loadCompletedTasks() {
+        fetch('/completed-tasks')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error ('Could not load tasks perfectly.')
+                }
+                return response.json();}) // dont what i was thinking when i did the last formatiign
+            .then(data => {
+                setCompletedTasks(data.completed || []); 
+                setCompletedError();})
+            .catch(error => setCompletedError(error.message));
+    }
 
+    useEffect(() => {
+        loadCompletedTasks()
+    },[]);
 
     
     async function completeTask(taskId, taskTitle) {
@@ -54,8 +64,9 @@ function Pending() {
             setCompleteMessage(`${taskTitle} completed`)
             await new Promise(resolve => setTimeout(resolve, 500));
             setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
+            setLater(tasks => tasks.filter(task => task[0] !== taskId));
+            loadCompletedTasks();
             setTimeout(() => setCompleteMessage(""), 2000);
-            window.location.reload();
         } catch(error) {
             console.error('Error completing task', error);
             setCompleteMessage(error.message);
@@ -88,6 +99,7 @@ function Pending() {
             setDeleteMessage(`${taskTitle} deleted`);
             await new Promise(resolve => setTimeout(resolve, 500));
             setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
+
             setTimeout(() => setDeleteMessage(""), 2000);
             window.location.reload();
         } catch(error) {
@@ -194,7 +206,19 @@ function Pending() {
     </div>
     <div className="completed-tasks">
         <h3>Completed Tasks</h3>
-        <p>{completedTasks}</p>
+        {completedError ? (
+            <p role="alert">{completedError}</p>
+        ):(
+            <ul>
+                {completedTasks.map(task => (
+                    <li key={task[0]}>
+                        <strong>{task[1]}</strong> - {task[2]}
+                        <i>{task[3]} | {task[4]}</i>
+                    </li>
+                ))}
+            </ul>
+        )}
+        
 
 
     </div>
