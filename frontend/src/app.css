@@ -220,7 +220,7 @@ body {
 .today-tasks h2 {
     text-align: center;
     font-size: 2.7rem;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family:fantasy;
     background-image: linear-gradient(90deg,skyblue, rgba(0, 0, 128, 0.762), rgba(0, 0, 0, 0.668));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -306,6 +306,8 @@ body {
 .upcoming-tasks h2 {
     font-size: 2.6rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-decoration-line: underline;
+    text-decoration-style:wavy;
 }
 
 .upcoming-tasks ul {
@@ -426,4 +428,23 @@ body {
 .upcoming-badge {
     right: 20px;
     transform: translateY(-50%) rotate(35deg)
+}
+
+.completed-tasks ul {
+    text-align: center;
+
+}
+
+.completed-tasks li {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 1%;
+    color: rgb(8, 7, 92);
+    font-size: 1.1rem;
+}
+
+.completed-tasks h2 {
+    text-align: center;
+    color:rgb(140, 43, 138);
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

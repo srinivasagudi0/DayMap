@@ -205,7 +205,7 @@ function Pending() {
         </ul>
     </div>
     <div className="completed-tasks">
-        <h3>Completed Tasks</h3>
+        <h2 style={{"fontSize": "1.9rem"}}>Completed Tasks</h2>
         {completedError ? (
             <p role="alert">{completedError}</p>
         ):(
@@ -213,6 +213,7 @@ function Pending() {
                 {completedTasks.map(task => (
                     <li key={task[0]}>
                         <strong>{task[1]}</strong> - {task[2]}
+                        <br/>
                         <i>{task[3]} | {task[4]}</i>
                     </li>
                 ))}
