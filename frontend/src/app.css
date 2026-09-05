@@ -458,3 +458,12 @@ body {
     margin-top: 30px;
     margin-right: 500px;
 }
+
+.Clear-tasks {
+    background: red;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: absolute;
+    right: 20px;
+
+}

@@ -141,4 +141,14 @@ def delete_task(id):
     conn.close()
     return True
 
+def delete_completed_task():
+    # delete ALL completed tasks
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute()
+    cursor.execute("DELETE * FROM completed_tasks")
+    conn.commit()
+    conn.close()
+    return True, "Sucessfully deleted all the tasks"
+
 

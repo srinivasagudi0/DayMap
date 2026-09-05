@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -147,6 +147,11 @@ def get_upcoming():
 def get_completed():
     completed = get_completed_tasks()
     return jsonify({"completed": completed, "ok": True})
+
+@app.route('/delete/completed-tasks')
+def delete_completed_tasks():
+    deleted, message = delete_completed_task()
+    return jsonify({"ok": deleted, "message":message})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -41,6 +41,20 @@ function Pending() {
         loadCompletedTasks()
     },[]);
 
+    function clearCompleted() {
+        const [clearMessage, setClearedMessage] = useState("")
+        fetch("/delete/completed-tasks")
+            .then(response => {
+              if (!response.ok)   {
+                throw new Error('Could not load tasks perfectly')
+              }
+              return response.json();})
+            .then(data => {
+                setClearedMessage(data.message);
+            })
+            .catch(error => console.log(error.message))
+    }
+
     
     async function completeTask(taskId, taskTitle) {
         const confirmed = window.confirm(`Completed "${taskTitle}"?`);
@@ -217,15 +231,17 @@ function Pending() {
         >
             {showCompleted ? "Hide Completed Tasks ⬆️" : "Show Completed Tasks ⬇️"}
         </button>
+         <button className="Clear-tasks" onClick={clearCompleted()}>Clear</button>
 
         <h2 style={{ fontSize: "1.9rem" }}>Completed Tasks</h2>
         {showCompleted && (
             <section id="completed-section">
                 
-
+               
                 {completedError ? (
                     <p role="alert">{completedError}</p>
                 ) : (
+
                     <ul>
                         {completedTasks.map(task => (
                             <li key={task[0]}>
