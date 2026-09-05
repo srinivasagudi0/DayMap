@@ -148,10 +148,12 @@ def get_completed():
     completed = get_completed_tasks()
     return jsonify({"completed": completed, "ok": True})
 
-@app.route('/delete/completed-tasks')
+@app.route('/delete/completed-tasks', methods=['DELETE'])
 def delete_completed_tasks():
-    deleted, message = delete_completed_task()
-    return jsonify({"ok": deleted, "message":message})
+    deleted_count = delete_completed_task()
+    return jsonify({
+                "ok": True,
+                "message": f"Cleared {deleted_count} completed tasks"})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -33,7 +33,7 @@ function Pending() {
                 return response.json();}) // dont what i was thinking when i did the last formatiign
             .then(data => {
                 setCompletedTasks(data.completed || []); 
-                setCompletedError();})
+                setCompletedError("");})
             .catch(error => setCompletedError(error.message));
     }
 
@@ -41,18 +41,39 @@ function Pending() {
         loadCompletedTasks()
     },[]);
 
-    function clearCompleted() {
-        const [clearMessage, setClearedMessage] = useState("")
-        fetch("/delete/completed-tasks")
-            .then(response => {
-              if (!response.ok)   {
-                throw new Error('Could not load tasks perfectly')
-              }
-              return response.json();})
-            .then(data => {
-                setClearedMessage(data.message);
-            })
-            .catch(error => console.log(error.message))
+
+   
+     const [clearMessage, setClearMessage] = useState("");
+    const [clearingCompleted, setClearingCompleted] = useState(false);
+    async function clearCompleted() {
+       
+        const confirmed = window.confirm(
+            "Permanently clear all completed tasks?"
+        );
+
+        if (!confirmed) return;
+
+        setClearingCompleted(true);
+        setClearMessage("");
+
+        try {
+            const response = await fetch('/delete/completed-tasks', {
+                method: 'DELETE',
+            });
+
+            const data = await response.json();
+        
+            if (!response.ok) {
+                throw new Error(data.error || 'Could not clear completed tasks');
+            }
+
+            setCompletedTasks([]);
+            setClearedMessage(data.message);
+        } catch (error) {
+            setClearedMessage(error.message);
+        } finally {
+            setClearingComplete(false);
+        }
     }
 
     
@@ -231,7 +252,11 @@ function Pending() {
         >
             {showCompleted ? "Hide Completed Tasks ⬆️" : "Show Completed Tasks ⬇️"}
         </button>
-         <button className="Clear-tasks" onClick={clearCompleted()}>Clear</button>
+         <button className="Clear-tasks" onClick={clearCompleted} disabled={clearingCompleted || completedTasks.length === 0}>{clearingCompleted ? "Clearing..." : "Clear All"}</button>
+
+         {clearMessage && (
+            <p role="status">{clearMessage}</p>
+         )}
 
         <h2 style={{ fontSize: "1.9rem" }}>Completed Tasks</h2>
         {showCompleted && (
