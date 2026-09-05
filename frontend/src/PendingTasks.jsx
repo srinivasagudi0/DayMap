@@ -110,6 +110,9 @@ function Pending() {
         }
     }
 
+    const [showCompleted, setShowCompleted]= useState(false);
+
+
     return (
     <main>
     <div className="title pending-title-box" style={{"backgroundImage": "linear-gradient(135deg, #3dd6d0 0%, #2878ff 20%, #6d45e8 45%, #e749ae 70%, #ff8a4c 100%)"}}>
@@ -205,23 +208,34 @@ function Pending() {
         </ul>
     </div>
     <div className="completed-tasks">
-        <h2 style={{"fontSize": "1.9rem"}}>Completed Tasks</h2>
-        {completedError ? (
-            <p role="alert">{completedError}</p>
-        ):(
-            <ul>
-                {completedTasks.map(task => (
-                    <li key={task[0]}>
-                        <strong>{task[1]}</strong> - {task[2]}
-                        <br/>
-                        <i>{task[3]} | {task[4]}</i>
-                    </li>
-                ))}
-            </ul>
+        <button
+            type="button"
+            onClick={() => setShowCompleted(previous => !previous)}
+            aria-expanded={showCompleted}
+            aria-controls="completed-section"
+        >
+            {showCompleted ? "Hide Completed Tasks" : "Show Completed Tasks"}
+        </button>
+
+        {showCompleted && (
+            <section id="completed-section">
+                <h2 style={{ fontSize: "1.9rem" }}>Completed Tasks</h2>
+
+                {completedError ? (
+                    <p role="alert">{completedError}</p>
+                ) : (
+                    <ul>
+                        {completedTasks.map(task => (
+                            <li key={task[0]}>
+                                <strong>{task[1]}</strong> - {task[2]}
+                                <br />
+                                <i>{task[3]} | {task[4]}</i>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </section>
         )}
-        
-
-
     </div>
     </main>
     );
