@@ -212,14 +212,16 @@ function Pending() {
             type="button"
             onClick={() => setShowCompleted(previous => !previous)}
             aria-expanded={showCompleted}
+            className="toggle-completed-button"
             aria-controls="completed-section"
         >
-            {showCompleted ? "Hide Completed Tasks" : "Show Completed Tasks"}
+            {showCompleted ? "Hide Completed Tasks ⬆️" : "Show Completed Tasks ⬇️"}
         </button>
 
+        <h2 style={{ fontSize: "1.9rem" }}>Completed Tasks</h2>
         {showCompleted && (
             <section id="completed-section">
-                <h2 style={{ fontSize: "1.9rem" }}>Completed Tasks</h2>
+                
 
                 {completedError ? (
                     <p role="alert">{completedError}</p>
@@ -236,7 +238,7 @@ function Pending() {
                 )}
             </section>
         )}
-    </div>
+    </div> 
     </main>
     );
 }

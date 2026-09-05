@@ -448,3 +448,13 @@ body {
     color:rgb(140, 43, 138);
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
+.toggle-completed-button {
+    position:absolute;
+    right: 10px;
+    border: 2px solid rebeccapurple;
+    border-radius: 50px;
+    font-size: 15px;
+    margin-top: 30px;
+    margin-right: 500px;
+}
