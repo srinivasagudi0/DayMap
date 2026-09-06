@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+// THe file looks so good and satisfying with the formatting(though it took me like an hour)
+
 function Pending() {
     const [dueToday, setDueToday] = useState([]);
     const [dueLater, setLater] = useState([]);
@@ -16,6 +18,9 @@ function Pending() {
 
     const [clearingCompleted, setClearingCompleted] = useState(false);
     const [showCompleted, setShowCompleted] = useState(false);
+
+    const [savingEdit, setSavingEdit] = useState(false);
+    const [editMessage, setEditMessage] = useState("");
 
     const [editForm, setEditForm] = useState({
         title: "",
@@ -92,6 +97,74 @@ function Pending() {
             priority: "",
             dueDate: ""
         });
+    }
+
+    async function saveEdit() {
+    if (
+        !editForm.title.trim() ||
+        !editForm.priority ||
+        !editForm.dueDate
+    ) {
+        setEditMessage(
+            "Please fill in the title, priority, and due date."
+        );
+
+        return;
+    }
+
+    setSavingEdit(true);
+    setEditMessage("");
+
+    try {
+        const response = await fetch(`/tasks/${editingId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: editForm.title,
+                description: editForm.description,
+                priority: editForm.priority,
+                due_date: editForm.dueDate
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Could not update task"
+            );
+        }
+
+        const [todayResponse, upcomingResponse] =
+            await Promise.all([
+                fetch("/todays-tasks"),
+                fetch("/upcoming-tasks")
+            ]);
+
+        const [todayData, upcomingData] =
+            await Promise.all([
+                todayResponse.json(),
+                upcomingResponse.json()
+            ]);
+
+        setDueToday(todayData.due || []);
+        setLater(upcomingData.tasks || []);
+
+        setEditMessage(data.message);
+        setEditingId(null);
+
+        setTimeout(() => {
+            setEditMessage("");
+        }, 2000);
+        } catch (error) {
+            setEditMessage(error.message);
+        } finally {
+            setSavingEdit(false);
+        }
     }
 
     async function clearCompleted() {
@@ -269,8 +342,8 @@ function Pending() {
                     }
                 />
 
-                <button type="button">
-                    Save
+                <button type="button" onclcik={saveEdit} disabled={savingEdit}>
+                    {savingEdit ? "Saving..." : "Save"}
                 </button>
 
                 <button
