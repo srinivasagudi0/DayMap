@@ -480,3 +480,17 @@ body {
     cursor: pointer;
 }
 
+.edit-form {
+    width:100;
+    flex: 1;
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) minmax(140px, 0.4fr);
+    gap: 12px;
+    padding: 18px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(61,214,208,0.16), rgba(109,69,  232, 0.14), rgba(231, 73, 174, 0.14));
+    border: 2px solid rgba(109, 69, 232, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(44, 62, 82, 0.14);
+
+}
