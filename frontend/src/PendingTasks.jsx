@@ -165,7 +165,10 @@ function Pending() {
                         <p className="delete-message" role="status">{deleteMessage}</p>
                     )}
         <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
-            {dueToday.map(task => (
+           {dueToday.length ===0 ? (
+            <p role='alert'>Please add some tasks(that are due today) to see here</p>
+           ) : (
+                dueToday.map(task => (
                 <li key={task[0]}>
                     <button
                         className="completed-check"
@@ -194,49 +197,49 @@ function Pending() {
                             : "🗑️"
                         }
                     </button>
-
-                    
-                    
                 </li>
                 
-            ))}
+            )))}
         </ul>
     </div>
     
     <div className="upcoming-tasks">
         <h2>Upcoming Tasks</h2>
         <ul>
-            {dueLater.map(task => (
-                <li key={task[0]}>
+            {dueLater.length === 0 ? (
+                <p>Please add tasks here to se them here.</p>
+            ):(
+                dueLater.map(task => (
+                    <li key={task[0]}>
 
-                    <button
-                    className="completed-check"
-                    onClick={() => completeTask(task[0], task[1])}
-                    disabled={completingId === task[0]}
-                    aria-label={`Completed ${task[1]}`}
-                    >
-                    {completingId === task[0]
-                        ? <span className="complete-spinner" />
-                        : "☑️"
-                    }
-                    </button>
-
-                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
-
-                    <button
-                    className="delete-button"
-                    onClick={() => deleteTask(task[0], task[1])}
-                    disabled={deletingId === task[0]}
-                    aria-label={`Delete ${task[1]}`}
-                    >
-                        {deletingId ===task[0]
-                            ?<span className="complete-spinner" />
-                            : "🗑️"
+                        <button
+                        className="completed-check"
+                        onClick={() => completeTask(task[0], task[1])}
+                        disabled={completingId === task[0]}
+                        aria-label={`Completed ${task[1]}`}
+                        >
+                        {completingId === task[0]
+                            ? <span className="complete-spinner" />
+                            : "☑️"
                         }
-                    </button>
+                        </button>
 
-                </li>
-            ))}
+                        <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
+
+                        <button
+                        className="delete-button"
+                        onClick={() => deleteTask(task[0], task[1])}
+                        disabled={deletingId === task[0]}
+                        aria-label={`Delete ${task[1]}`}
+                        >
+                            {deletingId ===task[0]
+                                ?<span className="complete-spinner" />
+                                : "🗑️"
+                            }
+                        </button>
+
+                    </li>
+                )))}
         </ul>
     </div>
     <div className="completed-tasks">
@@ -265,13 +268,17 @@ function Pending() {
                 ) : (
 
                     <ul>
-                        {completedTasks.map(task => (
-                            <li key={task[0]}>
-                                <strong>{task[1]}</strong> - {task[2]}
-                                <br />
-                                <i>{task[3]} | {task[4]}</i>
-                            </li>
-                        ))}
+                        {completedTasks.length === 0 ? (
+                            <h2 style={{"color": "red"}}>Complete some tasks so those appear here.</h2>
+                        ) : (
+                            completedTasks.map(task => (
+                                <li key={task[0]}>
+                                    <strong>{task[1]}</strong> - {task[2]}
+                                    <br />
+                                    <i>{task[3]} | {task[4]}</i>
+                                </li>
+                            ))
+                        )}
                     </ul>
                 )}
             </section>

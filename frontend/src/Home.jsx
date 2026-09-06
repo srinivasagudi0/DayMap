@@ -63,6 +63,7 @@ function Home() {
 
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
   const searchTask = () => {
     if (!search.trim()) return;
     
@@ -70,6 +71,7 @@ function Home() {
       .then(response => response.json())
       .then(data => {
         setSearchResults(data.results);
+        setHasSearched(true);
       })
       .catch(error => console.error('Error searching tasks:', error));
   }
@@ -133,22 +135,28 @@ function Home() {
       <textarea placeholder="Search with a keyword..." value={search} onChange={(event) => setSearch(event.target.value)} />
       <button onClick={searchTask} disabled={!search.trim()}>🔎</button>
       <ul>
-        {searchResults.map(task => (
+      {hasSearched && searchResults.length === 0 ? (
+        <p className="empty-state">NO TASKS AVAILABLE with the search.</p>
+      ) : (
+        searchResults.map(task => (
           <li key={task[0]}>
             {task[1]} - {task[2]}
           </li>
-        ))}
+        )))}
       </ul>
     </div>
     
     <div className="today-tasks">
       <h2>Today's Tasks</h2>
       <ul>
-        {dueToday.map(task => (
-          <li key={task[0]}>
-            ⁃ {task[1]} - {task[2]}
-          </li>
-        ))}
+        {dueToday.length === 0 ? (
+          <p>NO tasks due today!</p>
+        ):(
+        dueToday.map(task => (
+            <li key={task[0]}>
+              ⁃ {task[1]} - {task[2]}
+            </li>
+          )))}
       </ul>
     </div>
 
