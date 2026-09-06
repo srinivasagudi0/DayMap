@@ -494,3 +494,32 @@ body {
     box-shadow: 0 10px 25px rgba(44, 62, 82, 0.14);
 
 }
+
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
+    width: 100%;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 12px;
+
+    font-size: 1rem;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.edit-form input[type="text"],
+.edit-form textarea {
+    grid-column: 1 / -1;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus,
+.edit-form select:focus {
+    border-color: #6d45e8;
+    box-shadow: 0 0 0 4px rgba(109, 69, 232, 0.15);
+    transform: translateY(-1px);
+}
