@@ -2,51 +2,99 @@ import { useEffect, useState } from "react";
 
 function Pending() {
     const [dueToday, setDueToday] = useState([]);
-
-    useEffect(() => {
-    fetch('/todays-tasks')
-        .then(res => res.headers.get("content-type")?.includes("json") ? res.json() : [])
-        .then(data => setDueToday(data.due || []))
-        .catch(error => console.error('Error fetching tasks', error));
-    }, []);
+    const [dueLater, setLater] = useState([]);
+    const [completedTasks, setCompletedTasks] = useState([]);
 
     const [completingId, setCompletingId] = useState(null);
+    const [deletingId, setDeletingId] = useState(null);
+    const [editingId, setEditingId] = useState(null);
+
     const [completeMessage, setCompleteMessage] = useState("");
+    const [deleteMessage, setDeleteMessage] = useState("");
+    const [completedError, setCompletedError] = useState("");
+    const [clearMessage, setClearMessage] = useState("");
 
+    const [clearingCompleted, setClearingCompleted] = useState(false);
+    const [showCompleted, setShowCompleted] = useState(false);
 
-    const [dueLater, setLater] = useState([]);
+    const [editForm, setEditForm] = useState({
+        title: "",
+        description: "",
+        priority: "",
+        dueDate: ""
+    });
+
     useEffect(() => {
-     fetch('/upcoming-tasks')
-        .then(res => res.headers.get("content-type")?.includes("json") ? res.json() : [])
-        .then(data => setLater(data.tasks || []))
-        .catch(error => console.error('Error fetching tasks', error));
+        fetch("/todays-tasks")
+            .then(response =>
+                response.headers.get("content-type")?.includes("json")
+                    ? response.json()
+                    : []
+            )
+            .then(data => setDueToday(data.due || []))
+            .catch(error =>
+                console.error("Error fetching today's tasks", error)
+            );
     }, []);
 
-    const [completedTasks, setCompletedTasks] = useState([])
-    const [completedError, setCompletedError] = useState("")
+    useEffect(() => {
+        fetch("/upcoming-tasks")
+            .then(response =>
+                response.headers.get("content-type")?.includes("json")
+                    ? response.json()
+                    : []
+            )
+            .then(data => setLater(data.tasks || []))
+            .catch(error =>
+                console.error("Error fetching upcoming tasks", error)
+            );
+    }, []);
+
     function loadCompletedTasks() {
-        fetch('/completed-tasks')
+        fetch("/completed-tasks")
             .then(response => {
-            if (!response.ok) {
-                throw new Error ('Could not load tasks perfectly.')
+                if (!response.ok) {
+                    throw new Error("Could not load completed tasks.");
                 }
-                return response.json();}) // dont what i was thinking when i did the last formatiign
+
+                return response.json();
+            })
             .then(data => {
-                setCompletedTasks(data.completed || []); 
-                setCompletedError("");})
-            .catch(error => setCompletedError(error.message));
+                setCompletedTasks(data.completed || []);
+                setCompletedError("");
+            })
+            .catch(error => {
+                setCompletedError(error.message);
+            });
     }
 
     useEffect(() => {
-        loadCompletedTasks()
-    },[]);
+        loadCompletedTasks();
+    }, []);
 
+    function startEditing(task) {
+        setEditingId(task[0]);
 
-   
-     const [clearMessage, setClearMessage] = useState("");
-    const [clearingCompleted, setClearingCompleted] = useState(false);
+        setEditForm({
+            title: task[1],
+            description: task[2],
+            priority: task[3],
+            dueDate: task[4]
+        });
+    }
+
+    function cancelEditing() {
+        setEditingId(null);
+
+        setEditForm({
+            title: "",
+            description: "",
+            priority: "",
+            dueDate: ""
+        });
+    }
+
     async function clearCompleted() {
-       
         const confirmed = window.confirm(
             "Permanently clear all completed tasks?"
         );
@@ -57,12 +105,12 @@ function Pending() {
         setClearMessage("");
 
         try {
-            const response = await fetch('/delete/completed-tasks', {
-                method: 'DELETE',
+            const response = await fetch("/delete/completed-tasks", {
+                method: "DELETE"
             });
-        
+
             if (!response.ok) {
-                throw new Error('Could not clear completed tasks');
+                throw new Error("Could not clear completed tasks");
             }
 
             setCompletedTasks([]);
@@ -74,220 +122,384 @@ function Pending() {
         }
     }
 
-    
     async function completeTask(taskId, taskTitle) {
-        const confirmed = window.confirm(`Completed "${taskTitle}"?`);
+        const confirmed = window.confirm(
+            `Completed "${taskTitle}"?`
+        );
 
         if (!confirmed) return;
 
         setCompletingId(taskId);
 
         try {
-            const response = await fetch('/complete-task', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: taskId }),
+            const response = await fetch("/complete-task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: taskId
+                })
             });
+
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Could not complete task');
+                throw new Error(
+                    data.error || "Could not complete task"
+                );
             }
 
-            setCompleteMessage(`${taskTitle} completed`)
-            await new Promise(resolve => setTimeout(resolve, 500));
-            setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
-            setLater(tasks => tasks.filter(task => task[0] !== taskId));
+            setCompleteMessage(`${taskTitle} completed`);
+
+            setDueToday(tasks =>
+                tasks.filter(task => task[0] !== taskId)
+            );
+
+            setLater(tasks =>
+                tasks.filter(task => task[0] !== taskId)
+            );
+
             loadCompletedTasks();
-            setTimeout(() => setCompleteMessage(""), 2000);
-        } catch(error) {
-            console.error('Error completing task', error);
+
+            setTimeout(() => {
+                setCompleteMessage("");
+            }, 2000);
+        } catch (error) {
+            console.error("Error completing task", error);
             setCompleteMessage(error.message);
         } finally {
             setCompletingId(null);
         }
     }
-   
-    const [deletingId, setDeletingId] = useState(null)
-    const [deleteMessage, setDeleteMessage] = useState("")
+
     async function deleteTask(taskId, taskTitle) {
-        const confirmed = window.confirm(`Deleted ${taskTitle}`);
+        const confirmed = window.confirm(
+            `Delete "${taskTitle}"?`
+        );
 
         if (!confirmed) return;
 
         setDeletingId(taskId);
 
         try {
-            const response = await fetch('/delete-task', {
-                method: 'POST',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({id: taskId}),
+            const response = await fetch("/delete-task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: taskId
+                })
             });
 
-            if (!response.ok ) {
-                throw new Error(data.error || 'Could not delete task');
+            if (!response.ok) {
+                throw new Error("Could not delete task");
             }
-            
-            setDeleteMessage(`${taskTitle} deleted`);
-            await new Promise(resolve => setTimeout(resolve, 500));
-            setDueToday(tasks => tasks.filter(task => task[0] !== taskId));
 
-            setTimeout(() => setDeleteMessage(""), 2000);
-            window.location.reload();
-        } catch(error) {
-            console.error('Error deleting the task', error.message);
+            setDeleteMessage(`${taskTitle} deleted`);
+
+            setDueToday(tasks =>
+                tasks.filter(task => task[0] !== taskId)
+            );
+
+            setLater(tasks =>
+                tasks.filter(task => task[0] !== taskId)
+            );
+
+            setTimeout(() => {
+                setDeleteMessage("");
+            }, 2000);
+        } catch (error) {
+            console.error("Error deleting task", error);
             setDeleteMessage(error.message);
         } finally {
             setDeletingId(null);
         }
     }
 
-    const [showCompleted, setShowCompleted]= useState(false);
+    function renderEditForm() {
+        return (
+            <div className="edit-form">
+                <input
+                    type="text"
+                    value={editForm.title}
+                    placeholder="Task title"
+                    onChange={event =>
+                        setEditForm({
+                            ...editForm,
+                            title: event.target.value
+                        })
+                    }
+                />
 
+                <textarea
+                    value={editForm.description}
+                    placeholder="Task description"
+                    onChange={event =>
+                        setEditForm({
+                            ...editForm,
+                            description: event.target.value
+                        })
+                    }
+                />
+
+                <select
+                    value={editForm.priority}
+                    onChange={event =>
+                        setEditForm({
+                            ...editForm,
+                            priority: event.target.value
+                        })
+                    }
+                >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+
+                <input
+                    type="date"
+                    value={editForm.dueDate}
+                    onChange={event =>
+                        setEditForm({
+                            ...editForm,
+                            dueDate: event.target.value
+                        })
+                    }
+                />
+
+                <button type="button">
+                    Save
+                </button>
+
+                <button
+                    type="button"
+                    onClick={cancelEditing}
+                >
+                    Cancel
+                </button>
+            </div>
+        );
+    }
+
+    function renderTask(task, completeIcon) {
+        return (
+            <li key={task[0]}>
+                {editingId === task[0] ? (
+                    renderEditForm()
+                ) : (
+                    <>
+                        <button
+                            className="completed-check"
+                            onClick={() =>
+                                completeTask(task[0], task[1])
+                            }
+                            disabled={completingId === task[0]}
+                            aria-label={`Complete ${task[1]}`}
+                        >
+                            {completingId === task[0] ? (
+                                <span className="complete-spinner" />
+                            ) : (
+                                completeIcon
+                            )}
+                        </button>
+
+                        <strong>{task[1]}</strong>
+                        {" | "}
+                        <i>{task[2]}</i>
+
+                        <span
+                            style={{
+                                display: "grid",
+                                textAlign: "center"
+                            }}
+                        >
+                            {task[3]} {task[4]}
+                        </span>
+
+                        <button
+                            type="button"
+                            className="editBtn"
+                            onClick={() => startEditing(task)}
+                        >
+                            Edit ✎
+                        </button>
+
+                        <button
+                            type="button"
+                            className="delete-button"
+                            onClick={() =>
+                                deleteTask(task[0], task[1])
+                            }
+                            disabled={deletingId === task[0]}
+                            aria-label={`Delete ${task[1]}`}
+                        >
+                            {deletingId === task[0] ? (
+                                <span className="complete-spinner" />
+                            ) : (
+                                "🗑️"
+                            )}
+                        </button>
+                    </>
+                )}
+            </li>
+        );
+    }
 
     return (
-    <main>
-    <div className="title pending-title-box" style={{"backgroundImage": "linear-gradient(135deg, #3dd6d0 0%, #2878ff 20%, #6d45e8 45%, #e749ae 70%, #ff8a4c 100%)"}}>
-        <div className="task-badge today-badge">
-            Today: {dueToday.length}
-        </div>
-        <h1>Pending Tasks</h1>
-        <div className="task-badge upcoming-badge">
-            Upcoming: {dueLater.length}
-        </div>
-        <p>See your tasks here!</p>
-    </div>
-    <br />
-    
-    <div className="today-tasks">
-        <h2>Today's Tasks</h2>
-        {deleteMessage && (
-                        <p className="delete-message" role="status">{deleteMessage}</p>
+        <main>
+            <div
+                className="title pending-title-box"
+                style={{
+                    backgroundImage:
+                        "linear-gradient(135deg, #3dd6d0 0%, #2878ff 20%, #6d45e8 45%, #e749ae 70%, #ff8a4c 100%)"
+                }}
+            >
+                <div className="task-badge today-badge">
+                    Today: {dueToday.length}
+                </div>
+
+                <h1>Pending Tasks</h1>
+
+                <div className="task-badge upcoming-badge">
+                    Upcoming: {dueLater.length}
+                </div>
+
+                <p>See your tasks here!</p>
+            </div>
+
+            <br />
+
+            {completeMessage && (
+                <p
+                    className="complete-message"
+                    role="status"
+                >
+                    {completeMessage}
+                </p>
+            )}
+
+            {deleteMessage && (
+                <p
+                    className="delete-message"
+                    role="status"
+                >
+                    {deleteMessage}
+                </p>
+            )}
+
+            <div className="today-tasks">
+                <h2>Today's Tasks</h2>
+
+                <ul
+                    style={{
+                        borderRadius: "50px",
+                        border: "2px solid #2c3e50"
+                    }}
+                >
+                    {dueToday.length === 0 ? (
+                        <li className="empty-state">
+                            Please add tasks due today to see them here.
+                        </li>
+                    ) : (
+                        dueToday.map(task =>
+                            renderTask(task, "✔️")
+                        )
                     )}
-        <ul style={{"borderRadius": "50px", "border": "2px solid #2c3e50"}}>
-           {dueToday.length ===0 ? (
-            <p role='alert'>Please add some tasks(that are due today) to see here</p>
-           ) : (
-                dueToday.map(task => (
-                <li key={task[0]}>
-                    <button
-                        className="completed-check"
-                        onClick={() => completeTask(task[0], task[1])}
-                        disabled={completingId === task[0]}
-                        aria-label={`Complete ${task[1]}`}
-                    >
-                        {completingId === task[0]
-                            ? <span className="complete-spinner" />
-                            : "✔️"
-                        }
-                    </button>
-                    <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
-                    {completeMessage && (
-                        <p className="complete-message" role="status">{completeMessage}</p>
-                    
+                </ul>
+            </div>
+
+            <div className="upcoming-tasks">
+                <h2>Upcoming Tasks</h2>
+
+                <ul>
+                    {dueLater.length === 0 ? (
+                        <li className="empty-state">
+                            No upcoming tasks available.
+                        </li>
+                    ) : (
+                        dueLater.map(task =>
+                            renderTask(task, "☑️")
+                        )
                     )}
-                    <button
-                    className="editBtn"
-                    >Edit ✎</button>
-                    <button 
-                    className="delete-button"
-                    onClick={() => deleteTask(task[0], task[1])}
-                    disabled={deletingId === task[0]}
-                    aria-label={`Complete ${task[1]}`}
-                    >
-                        {deletingId === task[0]
-                            ? <span className="complete-spinner" />
-                            : "🗑️"
-                        }
-                    </button>
-                </li>
-                
-            )))}
-        </ul>
-    </div>
-    
-    <div className="upcoming-tasks">
-        <h2>Upcoming Tasks</h2>
-        <ul>
-            {dueLater.length === 0 ? (
-                <p>Please add tasks here to se them here.</p>
-            ):(
-                dueLater.map(task => (
-                    <li key={task[0]}>
+                </ul>
+            </div>
 
-                        <button
-                        className="completed-check"
-                        onClick={() => completeTask(task[0], task[1])}
-                        disabled={completingId === task[0]}
-                        aria-label={`Completed ${task[1]}`}
-                        >
-                        {completingId === task[0]
-                            ? <span className="complete-spinner" />
-                            : "☑️"
-                        }
-                        </button>
+            <div className="completed-tasks">
+                <button
+                    type="button"
+                    className="toggle-completed-button"
+                    onClick={() =>
+                        setShowCompleted(previous => !previous)
+                    }
+                    aria-expanded={showCompleted}
+                    aria-controls="completed-section"
+                >
+                    {showCompleted
+                        ? "Hide Completed Tasks ⬆️"
+                        : "Show Completed Tasks ⬇️"}
+                </button>
 
-                        <strong>{task[1]}</strong> | <i>{task[2]}</i> <span style={{"display": "grid", textAlign: "center"}}>{task[3]} {task[4]}</span>
+                <button
+                    type="button"
+                    className="Clear-tasks"
+                    onClick={clearCompleted}
+                    disabled={
+                        clearingCompleted ||
+                        completedTasks.length === 0
+                    }
+                >
+                    {clearingCompleted
+                        ? "Clearing..."
+                        : "Clear All"}
+                </button>
 
-                        <button
-                        className="delete-button"
-                        onClick={() => deleteTask(task[0], task[1])}
-                        disabled={deletingId === task[0]}
-                        aria-label={`Delete ${task[1]}`}
-                        >
-                            {deletingId ===task[0]
-                                ?<span className="complete-spinner" />
-                                : "🗑️"
-                            }
-                        </button>
-
-                    </li>
-                )))}
-        </ul>
-    </div>
-    <div className="completed-tasks">
-        <button
-            type="button"
-            onClick={() => setShowCompleted(previous => !previous)}
-            aria-expanded={showCompleted}
-            className="toggle-completed-button"
-            aria-controls="completed-section"
-        >
-            {showCompleted ? "Hide Completed Tasks ⬆️" : "Show Completed Tasks ⬇️"}
-        </button>
-         <button className="Clear-tasks" onClick={clearCompleted} disabled={clearingCompleted || completedTasks.length === 0}>{clearingCompleted ? "Clearing..." : "Clear All"}</button>
-
-         {clearMessage && (
-            <p role="status">{clearMessage}</p>
-         )}
-
-        <h2 style={{ fontSize: "1.9rem" }}>Completed Tasks</h2>
-        {showCompleted && (
-            <section id="completed-section">
-                
-               
-                {completedError ? (
-                    <p role="alert">{completedError}</p>
-                ) : (
-
-                    <ul>
-                        {completedTasks.length === 0 ? (
-                            <h2 style={{"color": "red"}}>Complete some tasks so those appear here.</h2>
-                        ) : (
-                            completedTasks.map(task => (
-                                <li key={task[0]}>
-                                    <strong>{task[1]}</strong> - {task[2]}
-                                    <br />
-                                    <i>{task[3]} | {task[4]}</i>
-                                </li>
-                            ))
-                        )}
-                    </ul>
+                {clearMessage && (
+                    <p role="status">
+                        {clearMessage}
+                    </p>
                 )}
-            </section>
-        )}
-    </div> 
-    </main>
+
+                <h2 style={{ fontSize: "1.9rem" }}>
+                    Completed Tasks
+                </h2>
+
+                {showCompleted && (
+                    <section id="completed-section">
+                        {completedError ? (
+                            <p role="alert">
+                                {completedError}
+                            </p>
+                        ) : (
+                            <ul>
+                                {completedTasks.length === 0 ? (
+                                    <li className="empty-state">
+                                        No completed tasks yet.
+                                    </li>
+                                ) : (
+                                    completedTasks.map(task => (
+                                        <li key={task[0]}>
+                                            <strong>
+                                                {task[1]}
+                                            </strong>
+                                            {" - "}
+                                            {task[2]}
+
+                                            <br />
+
+                                            <i>
+                                                {task[3]} | {task[4]}
+                                            </i>
+                                        </li>
+                                    ))
+                                )}
+                            </ul>
+                        )}
+                    </section>
+                )}
+            </div>
+        </main>
     );
 }
 
