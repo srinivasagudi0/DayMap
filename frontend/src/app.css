@@ -523,3 +523,23 @@ body {
     box-shadow: 0 0 0 4px rgba(109, 69, 232, 0.15);
     transform: translateY(-1px);
 }
+
+.edit-form button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 
+        transform 0.2s ease,    
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+    
+}
+
+.edit-form button:hover {
+    transform: translateY(-5px), scale(1.1);
+    box-shadow: 0 8px 18px black;
+    background-color: rgb(63, 61, 176);
+    color: white;
+}
+
