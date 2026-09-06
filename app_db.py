@@ -147,10 +147,10 @@ def delete_completed_task():
     # delete ALL completed tasks
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
-    rowcount = cursor.execute('SELECT COUNT(*) FROM completed_tasks')
     cursor.execute("DELETE FROM completed_tasks")
+    deleted = cursor.rowcount
     conn.commit()
     conn.close()
-    return rowcount
+    return deleted
 
 

@@ -60,19 +60,17 @@ function Pending() {
             const response = await fetch('/delete/completed-tasks', {
                 method: 'DELETE',
             });
-
-            const data = await response.json();
         
             if (!response.ok) {
-                throw new Error(data.error || 'Could not clear completed tasks');
+                throw new Error('Could not clear completed tasks');
             }
 
             setCompletedTasks([]);
-            setClearedMessage(data.message);
+            setClearMessage("Completed tasks cleared");
         } catch (error) {
-            setClearedMessage(error.message);
+            setClearMessage(error.message);
         } finally {
-            setClearingComplete(false);
+            setClearingCompleted(false);
         }
     }
 
@@ -125,7 +123,6 @@ function Pending() {
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({id: taskId}),
             });
-            const data = await response.json();
 
             if (!response.ok ) {
                 throw new Error(data.error || 'Could not delete task');
