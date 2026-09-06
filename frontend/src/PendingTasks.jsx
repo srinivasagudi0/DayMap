@@ -342,7 +342,7 @@ function Pending() {
                     }
                 />
 
-                <button type="button" onclcik={saveEdit} disabled={savingEdit}>
+                <button type="button" onClick={saveEdit} disabled={savingEdit}>
                     {savingEdit ? "Saving..." : "Save"}
                 </button>
 

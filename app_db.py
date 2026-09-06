@@ -157,7 +157,7 @@ def delete_completed_task():
 def edit_task(id, title, description, priority, due_date):
     conn = sqlite3.connect("app.db")
     cursor = conn.cursor()
-    cursor.execute("UPDATE tasks SET title =?, description=?, priority=?, due_date=?, WHERE id=?", (title, description, priority, due_date, id))
+    cursor.execute("UPDATE tasks SET title =?, description=?, priority=?, due_date=? WHERE id=?", (title, description, priority, due_date, id))
     updated = cursor.rowcount
     conn.commit()
     conn.close()
