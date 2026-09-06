@@ -465,5 +465,18 @@ body {
     margin-bottom: 1rem;
     position: absolute;
     right: 20px;
-
 }
+
+.editBtn {
+    border: #000000;
+    border-radius: 50px;
+    font-size: large;
+    transition: 0.2s;
+}
+
+.editBtn:hover {
+    transform: scale(1.1);
+    background-color: white;
+    cursor: pointer;
+}
+

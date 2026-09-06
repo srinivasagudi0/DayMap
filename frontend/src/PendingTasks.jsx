@@ -186,6 +186,9 @@ function Pending() {
                         <p className="complete-message" role="status">{completeMessage}</p>
                     
                     )}
+                    <button
+                    className="editBtn"
+                    >Edit ✎</button>
                     <button 
                     className="delete-button"
                     onClick={() => deleteTask(task[0], task[1])}
