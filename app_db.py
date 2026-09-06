@@ -154,3 +154,11 @@ def delete_completed_task():
     return deleted
 
 
+def edit_task(id, title, description, priority, due_date):
+    conn = sqlite3.connect("app.db")
+    cursor = conn.cursor()
+    cursor.execute("UPDATE tasks SET title =?, description=?, priority=?, due_date=?, WHERE id=?", (title, description, priority, due_date, id))
+    updated = cursor.rowcount
+    conn.commit()
+    conn.close()
+    return updated>0 # probably true of false, if false would be like nothing changed and will work basically as back buttons

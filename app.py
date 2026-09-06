@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -154,6 +154,42 @@ def delete_completed_tasks():
     return jsonify({
                 "ok": True,
                 "message": f"Cleared {deleted_count} completed tasks"})
+
+@app.route("/tasks/<int:task_id>", methods=["PUT"])
+def update_task(task_id):
+    try:
+        data = request.get_json(silent=True) or {}
+        title = (data.get("title") or "").strip()
+        description = (data.get("description") or "").strip()
+        priority = (data.get("priority") or "").strip()
+        due_date = (data.get("due_date") or "").strip()
+
+        if not title or not priority or not due_date:
+            return jsonify({
+                "ok": False,
+                "message": "Please fill the required feilds(tasks, priority, & due_date"
+            })
+
+        if priority not in ["low", "medium", "high"]:
+            return jsonify({
+                "ok": False,
+                "message": "Please choose a priority for your task."
+            })
+
+        editing_task = edit_task(task_id, title, description,priority, due_date)
+
+        if editing_task:
+            return jsonify({
+                "ok": True,
+                "message": "Your Task has been changed successfully!"
+            })
+        else: 
+            return jsonify({
+                "ok": True,
+                "message": "Your task is as is before and after the edit. "
+            })
+    except Exception as e:
+        return jsonify({"ok": "False", "error": f"AN ERROR SAYS: {e}"})
 
 if __name__ == '__main__':
     app.run(debug=True)
