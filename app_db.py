@@ -191,8 +191,8 @@ def save_future_message(task_id, role, content):
     conn = sqlite3.connect("app.db")
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO future_chat_messages (task_id, role, content)
-        VALUE (?, ?, ?)
+        INSERT INTO future_task_room (task_id, role, content)
+        VALUES (?, ?, ?)
         """, (task_id, role, content))
 
     message_id = cursor.lastrowid
@@ -200,3 +200,19 @@ def save_future_message(task_id, role, content):
     conn.commit()
     conn.close()
     return message_id
+
+def get_task_messages(task_id):
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        SELECT id, task_id, role, content, created_at
+        FROM future_task_room
+        WHERE task_id = ?
+        ORDER BY id ASC
+        """,
+        (task_id,)
+    )
+    msgs = cursor.fetchall()
+    conn.close()
+    return msgs
