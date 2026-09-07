@@ -543,3 +543,57 @@ body {
     color: white;
 }
 
+.overdue-tasks {
+    width: min(100% - 40px, 1100px);
+    margin: 25px auto;
+    padding: 22px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(255,70,0.25), rgba(255, 166, 0, 0.22));
+
+    border: 2px solid #c62828;
+    border-radius: 24px;
+}
+
+.overdue-tasks h2 {
+    margin: 0 0 20px;
+    text-align: center;
+    color: #8b0000;
+    font-size: 2rem;
+}
+
+.overdue-tasks ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.overdue-tasks li {
+    position: relative;
+    min-height: 80px;
+    margin-bottom: 14px;
+    padding: 16px 80px;
+    box-sizing: border-box;
+
+    text-align: center;
+    background: rgba(255, 255, 255, 0.55);
+
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    border-radius: 18px;
+}
+
+.overdue-tasks .editBtn {
+    margin-top: 10px;
+}
+
+.overdue-tasks .delete-button {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    float: none;
+    margin: 0;
+    transform: translateY(-50%);
+}
+
+.overdue-tasks .delete-button:hover {
+    transform: translateY(-50%) scale(1.1);
+}
