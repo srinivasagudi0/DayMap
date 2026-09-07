@@ -24,6 +24,16 @@ def init_db():
         )
         ''')
 
+    cursor.execute(''' 
+        CREATE TABLE IF NOT EXISTS future_task_room (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            task_id INTEGER NOT NULL,
+            role TEXT NOT NULL,
+            content TEXT not null,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+
     conn.commit()
     conn.close()
 
@@ -174,3 +184,19 @@ def get_overdue_tasks():
     return overdue
 
 
+def save_future_message(task_id, role, content):
+    if role not in ["user", "assistant"]:
+        raise ValueError("app.db")
+
+    conn = sqlite3.connect("app.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO future_chat_messages (task_id, role, content)
+        VALUE (?, ?, ?)
+        """, (task_id, role, content))
+
+    message_id = cursor.lastrowid
+
+    conn.commit()
+    conn.close()
+    return message_id
