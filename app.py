@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task, get_overdue_tasks
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -190,6 +190,13 @@ def update_task(task_id):
             })
     except Exception as e:
         return jsonify({"ok": "False", "error": f"AN ERROR SAYS: {e}"})
+
+@app.route('/overdue-tasks')
+def give_overdue_tasks():
+    tasks = get_overdue_tasks()
+    if not tasks:
+        return jsonify({'ok': True, 'visible': False, "tasks": 0})
+    return jsonify({"ok": True, "visible": False, "tasks": tasks})
 
 if __name__ == '__main__':
     app.run(debug=True)

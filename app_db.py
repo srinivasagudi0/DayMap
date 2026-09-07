@@ -162,3 +162,15 @@ def edit_task(id, title, description, priority, due_date):
     conn.commit()
     conn.close()
     return updated>0 # probably true of false, if false would be like nothing changed and will work basically as back buttons
+
+def get_overdue_tasks():
+    from datetime import datetime, timedelta
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM tasks WHERE due_date <= ?', (yesterday,))
+    overdue = cursor.fetchall()
+    conn.close()
+    return overdue
+
+
