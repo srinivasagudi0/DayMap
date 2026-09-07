@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // THe file looks so good and satisfying with the formatting(though it took me like an hour)
 // (later)yeah so really hard to keep organized, so...
@@ -234,6 +234,10 @@ function Pending() {
                 tasks.filter(task => task[0] !== taskId)
             );
 
+            setOverdueTasks(tasks =>
+                tasks.filter(tasks => tasks[0] !== taskId)
+            );
+
             loadCompletedTasks();
 
             setTimeout(() => {
@@ -280,6 +284,9 @@ function Pending() {
             setLater(tasks =>
                 tasks.filter(task => task[0] !== taskId)
             );
+            setOverdueTasks(tasks =>
+                tasks.filter(tasks => tasks[0] !== taskId)
+            );
 
             setTimeout(() => {
                 setDeleteMessage("");
@@ -294,15 +301,25 @@ function Pending() {
 
 
     const [overdueTasks, setOverdueTasks] = useState([]);
-    const [showOverdue, setShowOverdue] = useState(false);
+    const [overdueError, setOverdueError] = useState("");
 
-    async function overdueTasks() {
-        useEffect(() => {
-            fetch('/overdue-tasks')
-             .then(response => response.json())
-             .then(data => )
-        })
-    }
+    useEffect(() => {
+        fetch("/overdue-tasks")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Could not load overdue tasks");
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                setOverdueTasks(data.tasks || []);
+                setOverdueError("");
+            })
+            .catch(error => {
+                setOverdueError(error.message);
+            });
+    }, []);
 
     function renderEditForm() {
         return (
@@ -454,6 +471,15 @@ function Pending() {
 
                 <p>See your tasks here!</p>
             </div>
+            
+            {overdueError && (<p role="alert">{overdueError}</p>)}
+
+            {overdueTasks.length > 0 && (
+                <div className="overdue-tasks">
+                    <h2>🚨 Overdue Tasks ({overdueTasks.length})</h2>
+                    <ul>{overdueTasks.map(task => renderTask(task, "✔️"))}</ul>
+                </div>
+            )}
 
             <br />
 

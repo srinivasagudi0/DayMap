@@ -196,7 +196,7 @@ def give_overdue_tasks():
     tasks = get_overdue_tasks()
     if not tasks:
         return jsonify({'ok': True, 'visible': False, "tasks": 0})
-    return jsonify({"ok": True, "visible": False, "tasks": tasks})
+    return jsonify({"ok": True, "visible": True, "tasks": tasks})
 
 if __name__ == '__main__':
     app.run(debug=True)
