@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task, get_overdue_tasks, get_task_by_id
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task, get_overdue_tasks, get_task_by_id, get_task_messages
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -209,7 +209,8 @@ def get_future_room(task_id):
                 "error": "Task not found"
             }), 404
 
-        messages = 
+        messages = get_task_messages(task_id)
+        return jsonify({"ok": True, "task": task, "messages": messages})
 
     except Exception as e:
         pass
