@@ -47,7 +47,18 @@ function FutureRoom() {
                     <p>Due: {task[4]}</p>
                 </section>
             )}
-
+        <section className="future-chat">
+            {messages.length === 0 ? (
+                <p>No messages yet. Start discussing yout task.</p>
+            ) : (
+                messages.map((message, index) => (
+                    <div key={index} className={`message ${message[0]}`}>
+                        <strong>{message[0]}</strong>
+                        <p>{message[1]}</p>
+                    </div>
+                ))
+            )}
+        </section>
         </main>
     )
 }
