@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task, get_overdue_tasks
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task, get_overdue_tasks, get_task_by_id
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -197,6 +197,24 @@ def give_overdue_tasks():
     if not tasks:
         return jsonify({'ok': True, 'visible': False, "tasks": 0})
     return jsonify({"ok": True, "visible": True, "tasks": tasks})
+
+@app.route('/tasks/<int:task_id>/future-room", methods=["GET"]')
+def get_future_room(task_id):
+    try:
+        task = get_task_by_id(task_id)
+
+        if task is None:
+            return jsonify({
+                "ok": False,
+                "error": "Task not found"
+            }), 404
+
+        messages = 
+
+    except Exception as e:
+        pass
+        
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

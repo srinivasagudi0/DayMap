@@ -201,18 +201,31 @@ def save_future_message(task_id, role, content):
     conn.close()
     return message_id
 
-def get_task_messages(task_id):
-    conn = sqlite3.connect('app.db')
+def get_task_by_id(task_id):
+    conn = sqlite3.connect("app.db")
     cursor = conn.cursor()
     cursor.execute(
         """
-        SELECT id, task_id, role, content, created_at
-        FROM future_task_room
-        WHERE task_id = ?
-        ORDER BY id ASC
+        SELECT id, title, description, priority, due_date
+        FROM tasks
+        WHERE id = ?
         """,
         (task_id,)
     )
-    msgs = cursor.fetchall()
+    task = cursor.fetchone()
     conn.close()
-    return msgs
+    return task
+
+def get_task_messages(task_id):
+    # get all messages for a specific task from the future_task_room table
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT role, content, created_at
+        FROM future_task_room
+        WHERE task_id = ?
+        ORDER BY created_at ASC
+    ''', (task_id,))
+    messages = cursor.fetchall()
+    conn.close()
+    return messages
