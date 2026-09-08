@@ -1,7 +1,8 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
-import Home from './Home'
-import Addtask from './AddTask'
-import Pending from './PendingTasks'
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import Home from './Home';
+import Addtask from './AddTask';
+import Pending from './PendingTasks';
+import FutureRoom from './FutureRoom';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         <Route path="/"  element={<Home />} />
         <Route path="/add-task" element={<Addtask />} />
         <Route path="/pending-tasks" element={<Pending />} />
-        
+        <Route path="/future-room/:taskId" element={<FutureRoom />} />
       </Routes>
     </BrowserRouter>
   )

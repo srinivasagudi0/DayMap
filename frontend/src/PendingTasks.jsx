@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // THe file looks so good and satisfying with the formatting(though it took me like an hour)
 // (later)yeah so really hard to keep organized, so...
@@ -420,7 +421,12 @@ function Pending() {
                         >
                             {task[3]} {task[4]}
                         </span>
-
+                        <Link
+                            to={`/future/room/${task[0]}`}
+                            className="future-room-button"
+                        >
+                            Discuss With Future AI
+                        </Link>
                         <button
                             type="button"
                             className="editBtn"
