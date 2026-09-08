@@ -23,12 +23,31 @@ function FutureRoom() {
                 setError("");
             })
             .catch(error => setError(error.message))
-    })
+            .finally(() => setLoading(false));
+    }, [taskId]);
+
+    if (loading) {
+        return <p>Loading Future Room...</p>;
+    }
+
+    if (error) {
+        return <p role="alert">{error}</p>
+    }
 
     return (
         <main className="future-room">
             <Link to="/pending-tasks">🔙 Back to tasks</Link>
             <h1>Future Task Room</h1>
+
+            {task && (
+                <section className="future-task-detail">
+                    <h2>{task[1]}</h2>
+                    <p>{task[1]}</p>
+                    <p>{task[2]}</p>
+                    <p>Due: {task[4]}</p>
+                </section>
+            )}
+
         </main>
     )
 }
