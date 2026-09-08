@@ -1,5 +1,5 @@
-import  { Link, useParams } from "react-router-dom"
-import { useEffect, useState } from "react";
+import  { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function FutureRoom() {
     const {taskId} = useParams();
@@ -8,8 +8,10 @@ function FutureRoom() {
     const [messages, setMessages] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const [input, setInput] = useState("");
+    const [sending, setSending] = useState(false);
 
-    useState(() => {
+    useEffect(() => {
         fetch(`/tasks/${taskId}/future-room`)
             .then(response => {
                 if (!response.ok) {
@@ -34,6 +36,8 @@ function FutureRoom() {
         return <p role="alert">{error}</p>
     }
 
+    
+
     return (
         <main className="future-room">
             <Link to="/pending-tasks">🔙 Back to tasks</Link>
@@ -42,7 +46,6 @@ function FutureRoom() {
             {task && (
                 <section className="future-task-detail">
                     <h2>{task[1]}</h2>
-                    <p>{task[1]}</p>
                     <p>{task[2]}</p>
                     <p>Due: {task[4]}</p>
                 </section>
@@ -58,6 +61,20 @@ function FutureRoom() {
                     </div>
                 ))
             )}
+
+            <form onSubmit={requestAnswer}>
+                <input
+                    type="text"
+                    value={input}
+                    onChange={event => setInput(event.target.value)}
+                    placeholder="Discuss this task with Future AI..."
+                    disabled={sending}
+                />
+
+                <button type="submit" disabled={sending || !input.trim()}>
+                    {sending ? "Thinking..." : "Send"}
+                </button>
+            </form>
         </section>
         </main>
     )
