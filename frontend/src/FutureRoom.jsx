@@ -8,6 +8,7 @@ function FutureRoom() {
     const [messages, setMessages] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+
     const [input, setInput] = useState("");
     const [sending, setSending] = useState(false);
 
@@ -27,6 +28,24 @@ function FutureRoom() {
             .catch(error => setError(error.message))
             .finally(() => setLoading(false));
     }, [taskId]);
+
+    async function requestAnswer(event) {
+        event.prevntDefault();
+
+        if(!input.trim() || sending) return;
+
+        setSending(true);
+        setError("");
+        try {
+        // The POST request will come here next.
+        console.log("Message:", input);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setSending(false);
+    }
+    }
+
 
     if (loading) {
         return <p>Loading Future Room...</p>;
