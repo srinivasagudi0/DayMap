@@ -198,7 +198,7 @@ def give_overdue_tasks():
         return jsonify({'ok': True, 'visible': False, "tasks": 0})
     return jsonify({"ok": True, "visible": True, "tasks": tasks})
 
-@app.route('/tasks/<int:task_id>/future-room", methods=["GET"]')
+@app.route("/tasks/<int:task_id>/future-room", methods=["GET"])
 def get_future_room(task_id):
     try:
         task = get_task_by_id(task_id)
@@ -213,7 +213,7 @@ def get_future_room(task_id):
         return jsonify({"ok": True, "task": task, "messages": messages})
 
     except Exception as e:
-        pass
+        return jsonify({"ok": False, "error": str(e) }), 500
         
     
 
