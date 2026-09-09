@@ -122,6 +122,23 @@ function FutureRoom() {
             <h1>Future Task Room</h1>
 
             {task && (
+            <button
+                className="AI-complete"
+                onClick={() =>
+                    completeTask(task[0], task[1])
+                }
+                disabled={completingId === task[0]}
+                aria-label={`Complete ${task[1]}`}
+            >
+                {completingId === task[0] ? (
+                    <span className="complete-spinner" />
+                ) : (
+                    "DONE with this task!✔️"
+                )}
+                </button>
+            )}
+
+            {task && (
                 <section className="future-task-detail">
                     <h2>{task[1]}</h2>
                     <p>{task[2]}</p>
@@ -148,22 +165,7 @@ function FutureRoom() {
                     </div>
                 ))
             )}
-            {task && (
-            <button
-                className="completed-check"
-                onClick={() =>
-                    completeTask(task[0], task[1])
-                }
-                disabled={completingId === task[0]}
-                aria-label={`Complete ${task[1]}`}
-            >
-                {completingId === task[0] ? (
-                    <span className="complete-spinner" />
-                ) : (
-                    "✔️"
-                )}
-                </button>
-            )}
+            
 
             <form onSubmit={requestAnswer}>
                 <input

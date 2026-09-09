@@ -695,4 +695,28 @@ body {
 .Ask-ai {
     margin-bottom: 20px;
     font-size: 2rem;
+    transition: 0.1s ease;
+}
+
+.Ask-ai:hover {
+    transform: translateY(10px);
+}
+
+.AI-complete{
+   margin-bottom: 10px; 
+   font-size: 1.6rem;
+   background-color: #076e3b;
+   color: white;
+    transition: 0.2s ease;
+    float: right;
+    margin-top: 69px;
+    margin-right: 20px;
+    rotate: 20deg;
+
+}
+
+.AI-complete:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+    border-radius: 30px;
 }
