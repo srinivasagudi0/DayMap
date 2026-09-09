@@ -55,7 +55,8 @@ function FutureRoom() {
 
             setMessages(previousMessages => [
                 ...previousMessages,
-                ["user", input]
+                ["user", input],
+                ["assistant", data.assistant_message.content]
             ]);
             setInput("");
         } catch (error) {

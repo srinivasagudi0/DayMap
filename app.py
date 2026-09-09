@@ -251,7 +251,6 @@ def get_future_ai_answer(task, message):
     return response.output_text.strip()
 
 
-@app.route("/tasks/<int:task_id>/future-room", methods=["POST"])
 def post_future_message(task_id):
     try:
         task = get_task_by_id(task_id)
@@ -271,20 +270,36 @@ def post_future_message(task_id):
                 "error": "Message cannot be empty",
             }), 400
 
+        
+
         message_id = save_future_message(
             task_id,
             "user",
             content
         )
 
+        messages = get_task_messages(task_id)
+        assistant_content= get_future_ai_answer(task, messages)
+
+        assistant_id = save_future_message(
+            task_id,
+            "assistant",
+            assistant_content
+        )
+
         return jsonify({
             "ok": True,
-            "message": {
+            "user_message": {
                 "id": message_id,
                 "role": "user",
                 "content": content
+            },
+            "assistant_message": {
+                "id": assistant_id,
+                "role": "assistant",
+                "content": assistant_content
             }
-        })
+        }), 201
 
     except Exception as e:
         return jsonify({
