@@ -597,3 +597,36 @@ body {
 .overdue-tasks .delete-button:hover {
     transform: translateY(-50%) scale(1.1);
 }
+
+.future-room {
+    margin-top: 2rem;
+    background-color: rgb(170, 118, 72);
+    text-align: center;
+}
+
+.future-room h1 {
+    font-size: 5rem;
+}
+
+
+.future-task-detail {
+    text-align: left;
+    background-color: #1077aa;
+    border: 2px solid #000000;
+    padding: 1px 12px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+}
+
+.future-task-detail h2 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.8rem;
+}
+
+.future-room a {     
+    display: inline-block;
+    width: 100%;
+    text-align: left; 
+    font-size: 2.5rem;
+}

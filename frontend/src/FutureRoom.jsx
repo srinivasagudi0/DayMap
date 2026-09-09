@@ -79,14 +79,14 @@ function FutureRoom() {
 
     return (
         <main className="future-room">
-            <Link to="/pending-tasks">🔙 Back to tasks</Link>
+            <Link to="/pending-tasks">🔙</Link>
             <h1>Future Task Room</h1>
 
             {task && (
                 <section className="future-task-detail">
                     <h2>{task[1]}</h2>
                     <p>{task[2]}</p>
-                    <p>Due: {task[4]}</p>
+                    <p>Due: <strong>{task[4]}</strong></p>
                 </section>
             )}
         <section className="future-chat">
