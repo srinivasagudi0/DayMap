@@ -215,6 +215,42 @@ def get_future_room(task_id):
     except Exception as e:
         return jsonify({"ok": False, "error": str(e) }), 500
 
+
+def get_future_ai_answer(task, message):
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+    conversation = [
+        {
+            "role": message[0],
+            "content": message[1]
+        }
+        for message in messages
+    ]
+
+    response = client.response.create(
+        model="gpt--5.6-sol".strip,
+        reasoning={"effort": "medium"},
+        instructions = f"""
+            You are Future AI, a focused task-completion assistant.
+
+            The user's current task is:
+            Title: {task[1]}
+            Description: {task[2]}
+            Priority: {task[3]}
+            Due date: {task[4]}
+
+            Help the user make real progress on this exact task.
+            Be concise, practical, and encouraging.
+            Do not discuss unrelated subjects.
+            Never mark or delete the task automatically.
+            If the user says the task is finished, ask them to confirm completion.
+        """, # chatgpt wrote this prompt man.
+        input = conversation
+    )
+
+    return response.output_text.strip()
+
+
 @app.route("/tasks/<int:task_id>/future-room", methods=["POST"])
 def post_future_message(task_id):
     try:
@@ -227,7 +263,7 @@ def post_future_message(task_id):
             }), 404
 
         data = request.get_json(silent=True) or {}
-        content = (data.get("content" or "")).strip()
+        content = (data.get("content") or "").strip()
 
         if not content:
             return jsonify({
