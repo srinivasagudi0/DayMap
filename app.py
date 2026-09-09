@@ -216,7 +216,7 @@ def get_future_room(task_id):
         return jsonify({"ok": False, "error": str(e) }), 500
 
 
-def get_future_ai_answer(task, message):
+def get_future_ai_answer(task, messages):
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     conversation = [
@@ -227,8 +227,8 @@ def get_future_ai_answer(task, message):
         for message in messages
     ]
 
-    response = client.response.create(
-        model="gpt--5.6-sol".strip,
+    response = client.responses.create(
+        model="gpt-5.6-sol",
         reasoning={"effort": "medium"},
         instructions = f"""
             You are Future AI, a focused task-completion assistant.
