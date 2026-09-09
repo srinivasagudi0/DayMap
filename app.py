@@ -250,7 +250,7 @@ def get_future_ai_answer(task, messages):
 
     return response.output_text.strip()
 
-
+@app.route("/tasks/<int:task_id>/future-room", methods=["POST"]) # forgot to put this 
 def post_future_message(task_id):
     try:
         task = get_task_by_id(task_id)

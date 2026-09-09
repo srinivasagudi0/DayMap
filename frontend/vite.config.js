@@ -18,7 +18,7 @@ export default defineConfig({
       "/overdue-tasks": "http://localhost:5000",
       "/tasks/<int:task_id>/future-room": "http://localhost:5000",
       "/tasks/<int:task_id>/future-room": "http://localhost:5000"
-[]
+
     },
   },
 });
