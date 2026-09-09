@@ -94,7 +94,7 @@ function FutureRoom() {
                 <p>No messages yet. Start discussing yout task.</p>
             ) : (
                 messages.map((message, index) => (
-                    <div key={index} className={`message ${message[0]}`}>
+                    <div key={index} className={`message-${message[0]}`}>
                         <strong>{message[0]}</strong>
                         <p>{message[1]}</p>
                     </div>

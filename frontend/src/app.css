@@ -606,6 +606,8 @@ body {
 
 .future-room h1 {
     font-size: 5rem;
+    text-decoration: underline;
+    text-decoration-style:double;
 }
 
 
@@ -622,6 +624,7 @@ body {
 .future-task-detail h2 {
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.8rem;
+    text-decoration: underline;
 }
 
 .future-room a {     
@@ -630,3 +633,47 @@ body {
     text-align: left; 
     font-size: 2.5rem;
 }
+
+.message-user {
+    background-color: wheat;
+    width: max-content;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: 2%;
+    text-align: right;
+    padding: 10px 10px;
+    border-radius: 20%;
+}
+
+.message-user strong {
+    color: rgb(144, 16, 33);
+}
+
+.message-assistant {
+    width: max-content;
+    max-width: 90%;
+    margin-left: 2%;
+    margin-right: auto;
+    text-align: left;
+    border: solid 1px #000000;
+    background-color: white;
+    padding: 10px ;
+}
+
+.message-assistant strong {
+    color: rgb(144, 16, 33);
+}
+.message-user,
+.message-assistant {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: .8rem;
+}
+
+.message-user p,
+.message-assistant p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 1.3rem;
+}
+
