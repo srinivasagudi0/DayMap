@@ -38,7 +38,26 @@ function FutureRoom() {
         setError("");
         try {
         // The POST request will come here next.
-        console.log("Message:", input);
+            const response = await fetch(`/tasks/${taskId}/future-room`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    content: input
+                })
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Could not send message");
+            }
+
+            setMessages(previousMessages => [
+                ...previousMessages,
+                ["user", input]
+            ]);
+            setInput("");
         } catch (error) {
             setError(error.message);
         } finally {

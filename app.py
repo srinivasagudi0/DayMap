@@ -256,8 +256,5 @@ def post_future_message(task_id):
             "error": str(e)
         })
 
-        
-    
-
 if __name__ == '__main__':
     app.run(debug=True)
