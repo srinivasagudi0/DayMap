@@ -98,10 +98,12 @@ function FutureRoom() {
             setCompleteMessage(`${taskTitle} completed`)
             
             setTimeout(() => {
-                setCompleteMessage("");
-            }, 2000);
+                window.location.href = "/pending-tasks";
+            }, 1500);
         } catch (error) {
             setCompletedError(error.message);
+        } finally {
+            setCompletingId(null);
         }
         
     }
@@ -118,10 +120,15 @@ function FutureRoom() {
 
     return (
         <main className="future-room">
-            <Link to="/pending-tasks">🔙</Link>
+            <Link to="/pending-tasks ">🔙</Link>
             <h1>Future Task Room</h1>
 
-            {task && (
+            {completedError && (
+                <p className="complete-error" role="alert">
+                    {completedError}
+                </p>
+            )}
+         {task && (
             <button
                 className="AI-complete"
                 onClick={() =>
