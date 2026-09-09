@@ -238,7 +238,8 @@ def get_future_ai_answer(task, messages):
             Description: {task[2]}
             Priority: {task[3]}
             Due date: {task[4]}
-
+            !! Your first message should mostly be turning the users task into a visible path of 3-6 checkpoints. As the conversation progresses, checkpoints become Completed.
+            Instead of overwhelming the user, explain exactly one action like 'Your next move: Write one sentence explaining what a proton does.'
             Help the user make real progress on this exact task.
             Be concise, practical, and encouraging.
             Do not discuss unrelated subjects.
