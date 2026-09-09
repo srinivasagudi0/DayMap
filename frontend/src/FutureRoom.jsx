@@ -30,7 +30,7 @@ function FutureRoom() {
     }, [taskId]);
 
     async function requestAnswer(event) {
-        event.prevntDefault();
+        event.preventDefault();
 
         if(!input.trim() || sending) return;
 

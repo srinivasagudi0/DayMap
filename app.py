@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, request
-from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task, get_overdue_tasks, get_task_by_id, get_task_messages
+from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, num_completed_task, due_upcoming, add_completed_task, delete_task, get_completed_tasks, delete_completed_task, edit_task, get_overdue_tasks, get_task_by_id, get_task_messages, save_future_message
 from openai import OpenAI
 import os
 from datetime import datetime
@@ -198,7 +198,7 @@ def give_overdue_tasks():
         return jsonify({'ok': True, 'visible': False, "tasks": 0})
     return jsonify({"ok": True, "visible": True, "tasks": tasks})
 
-@app.route("/tasks/<int:task_id>/future-room", methods=["GET"])
+@app.route("/tasks/<int:task_id>/future-room")
 def get_future_room(task_id):
     try:
         task = get_task_by_id(task_id)
@@ -214,6 +214,48 @@ def get_future_room(task_id):
 
     except Exception as e:
         return jsonify({"ok": False, "error": str(e) }), 500
+
+@app.route("/tasks/<int:task_id>/future-room", methods=["POST"])
+def post_future_message(task_id):
+    try:
+        task = get_task_by_id(task_id)
+
+        if task is None:
+            return jsonify({
+                "ok": False,
+                "error": "Task not found"
+            }), 404
+
+        data = request.get_json(silent=True) or {}
+        content = (data.get("content" or "")).strip()
+
+        if not content:
+            return jsonify({
+                "ok": False,
+                "error": "Message cannot be empty",
+            }), 400
+
+        message_id = save_future_message(
+            task_id,
+            "user",
+            content
+        )
+
+        return jsonify({
+            "ok": True,
+            "message": {
+                "id": message_id,
+                "role": "user",
+                "content": content
+            }
+        })
+
+    except Exception as e:
+        return jsonify({
+            "ok": False,
+            "error": str(e)
+        })
+
         
     
 
