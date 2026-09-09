@@ -66,6 +66,45 @@ function FutureRoom() {
     }
     }
 
+    const [completeMessage, setCompleteMessage] = useState("");
+    const [completedError, setCompletedError] = useState("");
+    const [completingId, setCompletingId] = useState(null);
+
+    async function completeTask(taskId, taskTitle) {
+        const confirmed = window.confirm(
+            `Completed "${taskTitle}"`
+        );
+
+        if (!confirmed) return;
+        
+        setCompletingId(taskId);
+
+        try {
+            const response = await fetch("/complete-task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({id: taskId})
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error || "Could not Complete task"
+                );
+            }
+
+            setCompleteMessage(`${taskTitle} completed`)
+            
+            setTimeout(() => {
+                setCompleteMessage("");
+            }, 2000);
+        } catch (error) {
+            setCompletedError(error.message);
+        }
+        
+    }
 
     if (loading) {
         return <p>Loading Future Room...</p>;
@@ -90,6 +129,15 @@ function FutureRoom() {
                 </section>
             )}
         <section className="future-chat">
+            {completeMessage && (
+                <p
+                    className="complete-message"
+                    role="status"
+                >
+                    {completeMessage}
+                </p>
+            )}
+
             {messages.length === 0 ? (
                 <p>No messages yet. Start discussing yout task.</p>
             ) : (
@@ -99,6 +147,22 @@ function FutureRoom() {
                         <p>{message[1]}</p>
                     </div>
                 ))
+            )}
+            {task && (
+            <button
+                className="completed-check"
+                onClick={() =>
+                    completeTask(task[0], task[1])
+                }
+                disabled={completingId === task[0]}
+                aria-label={`Complete ${task[1]}`}
+            >
+                {completingId === task[0] ? (
+                    <span className="complete-spinner" />
+                ) : (
+                    "✔️"
+                )}
+                </button>
             )}
 
             <form onSubmit={requestAnswer}>
