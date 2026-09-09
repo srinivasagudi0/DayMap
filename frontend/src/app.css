@@ -608,6 +608,7 @@ body {
     font-size: 5rem;
     text-decoration: underline;
     text-decoration-style:double;
+    margin-top: 10px;
 }
 
 
@@ -618,15 +619,20 @@ body {
     padding: 1px 12px;
     margin-left: 5px;
     margin-right: 5px;
+    margin-bottom: 20px;
 
 }
 
 .future-task-detail h2 {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.8rem;
+    font-size: 2.5rem;
     text-decoration: underline;
+    margin-bottom: 7px;
 }
-
+.future-task-detail p {
+    font-style: italic;
+    font-size: 1.3rem;
+}
 .future-room a {     
     display: inline-block;
     width: 100%;
@@ -677,3 +683,16 @@ body {
     font-size: 1.3rem;
 }
 
+
+.Query {
+    margin:1%;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    padding: 10px 20px;
+    width: 90%;
+}
+
+.Ask-ai {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}

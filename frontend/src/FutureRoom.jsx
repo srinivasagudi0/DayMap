@@ -107,11 +107,12 @@ function FutureRoom() {
                     value={input}
                     onChange={event => setInput(event.target.value)}
                     placeholder="Discuss this task with Future AI..."
+                    className="Query" // dont know what to put honestly
                     disabled={sending}
                 />
 
-                <button type="submit" disabled={sending || !input.trim()}>
-                    {sending ? "Thinking..." : "Send"}
+                <button type="submit" disabled={sending || !input.trim()} className="Ask-ai">
+                    {sending ? "Thinking..." : "⬆"}
                 </button>
             </form>
         </section>
