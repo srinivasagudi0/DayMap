@@ -105,7 +105,25 @@ function FutureRoom() {
         } finally {
             setCompletingId(null);
         }
-        
+
+    }
+
+    const [sprintMinutes, setSprintMinutes] = useState(10);
+    const [secondsleft, setSecondsLeft] = useState(0);
+    const [sprintEnd, setSprintEnd] = useState(null);
+    const [sprintActive, setSprintActive] = useState(false);
+
+    function startSprint() {
+        const endingTime = Date.now() + sprintMinutes * 60 *1000;
+
+        setSprintEnd(endingTime);
+        setSecondsLeft(sprintMinutes * 60);
+        setSprintActive(true);
+
+        localStorage.setItem(
+            `future-sprint-${taskId}`,
+            endingTime.toString()
+        );
     }
 
     if (loading) {
@@ -120,7 +138,7 @@ function FutureRoom() {
 
     return (
         <main className="future-room">
-            <Link to="/pending-tasks ">🔙</Link>
+            <Link to="/pending-tasks">🔙</Link>
             <h1>Future Task Room</h1>
 
             {completedError && (
