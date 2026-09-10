@@ -126,6 +126,40 @@ function FutureRoom() {
         );
     }
 
+    function stopSprint() {
+        const confirmed = window.confirm("Stop this Future Sprint?");
+
+        if (!confirmed) return;
+
+        setSprintActive(false);
+        setSecondsLeft(0);
+        setSprintEnd(null);
+
+        localStorage.removeItem(`future-sprint-${taskId}`);
+    }
+
+    useEffect(() => {
+        if (!sprintActive || !sprintEnd) return;
+        
+        const timer = setInterval(() => {
+            const remaining = Math.max(
+                0,
+                Math.ceil(sprintEnd - Date.now() / 1000)
+            );
+            setSecondsLeft(remaining)
+
+            if (remaining === 0) {
+                setSprintActive(false);
+                setSprintEnd(null);
+                localStorage.removeitem(`future-sprint-${taskId}`);
+            }
+        }, 1000)
+    }, [sprintActive, sprintEnd, taskId]);
+
+
+    // function formatTIem
+
+
     if (loading) {
         return <p>Loading Future Room...</p>;
     }
