@@ -2,6 +2,37 @@ body {
     background:#d3a304d4;
 }
 
+nav {
+    position: sticky;
+    text-align: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px clamp(16px, 4w, 60px);
+    background: peachpuff;
+    font-size: 1.3rem;
+    display: flex;
+}
+
+nav a {
+    color: #26345c;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 9px 14px;
+    border-radius: 12px;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+nav a:hover {
+    color: rgb(83, 119, 211);
+    background-color: #26505c;
+
+
+}
+
+
 .title {
     text-align: center;
     font-size: 3rem;
