@@ -209,6 +209,41 @@ function FutureRoom() {
                     <p>Due: <strong>{task[4]}</strong></p>
                 </section>
             )}
+
+            <section className="future-sprint">
+            <h2>Future Sprint</h2>
+
+            {!sprintActive ? (
+                <>
+                <div className="sprint-options">
+                    {[10, 20, 30].map(minutes => (
+                        <button
+                            type="button"
+                            key={minutes}
+                            onClick={() => setSprintMinutes(minutes)}
+                            className={
+                                sprintMinutes === minutes
+                                    ? "selected-sprint"
+                                    : ""
+                            }
+                        >{minutes} min</button>
+            ))}
+            </div>
+
+            <button type="button" onClick={startSprint}> Start Future Sprint </button>
+        </>
+        ) : (
+            <>
+                <p className="sprint-time">
+                    {formatSprintTime(secondsLeft)}
+                </p>
+
+                <button type="button" onClick={stopSprint}>
+                    Stop Sprint
+                </button>
+            </>
+        )}
+            </section>
         <section className="future-chat">
             {completeMessage && (
                 <p
