@@ -13,6 +13,7 @@ function FutureRoom() {
     const [sending, setSending] = useState(false);
 
     useEffect(() => {
+        CheckSprint();
         fetch(`/tasks/${taskId}/future-room`)
             .then(response => {
                 if (!response.ok) {
@@ -168,7 +169,7 @@ function FutureRoom() {
             if (remaining === 0) {
                 setSprintActive(false);
                 setSprintEnd(null);
-                localStorage.removeitem(`future-sprint-${taskId}`);
+                localStorage.removeItem(`future-sprint-${taskId}`);
             }
         }, 1000)
 
