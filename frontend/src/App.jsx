@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Home from './Home';
 import Addtask from './AddTask';
 import Pending from './PendingTasks';
@@ -10,9 +10,9 @@ function App() {
 
     <BrowserRouter>
       <nav>
-        <Link to="/">DayMap</Link>
-        <Link to="/add-task">Add Task</Link>
-        <Link to="/pending-tasks">Pending Tasks</Link>
+        <NavLink to="/">DayMap</NavLink>
+        <NavLink to="/add-task">Add Task</NavLink>
+        <NavLink to="/pending-tasks">Pending Tasks</NavLink>
       </nav>
 
       <Routes>

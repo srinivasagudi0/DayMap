@@ -28,8 +28,14 @@ nav a {
 nav a:hover {
     color: rgb(83, 119, 211);
     background-color: #26505c;
+}
 
-
+nav a[aria-current="page"] {
+    color: white;
+    background: linear-gradient(135deg, #26345c, #4058a0);
+    border: 2px solid #e6b929;
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 #e6b929;
 }
 
 
