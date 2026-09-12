@@ -169,11 +169,12 @@ function FutureRoom() {
             setSecondsLeft(remaining)
 
             if (remaining === 0) {
+                addSprintMessage("finish")
+                    .catch(error => setError(error.message));
                 setSprintActive(false);
                 setSprintEnd(null);
                 localStorage.removeItem(`future-sprint-${taskId}`);
-                addSprintMessage("finish")
-                    .catch(error => setError(error.message));
+                
             }
         }, 1000)
 
