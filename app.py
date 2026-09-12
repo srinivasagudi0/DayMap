@@ -308,5 +308,39 @@ def post_future_message(task_id):
             "error": str(e)
         })
 
+@app.route("/tasks/<int:task_id>/future-sprint-message", methods=["POST"])
+def future_sprint_message(task_id):
+    data = request.get_json(silent=True) or {}
+    event_type = data.get("event_type")
+    minutes = data.get("minutes", 10)
+
+    task = get_task_by_id(task_id)
+
+    if not task:
+        return jsonify({
+            "ok": False,
+            "error": f"Task no.{task_id} not found, check it if it is db or soemthing."
+        })
+
+    title = task[1]
+    description = task[2]
+
+    if event_type == "start":
+        if description:
+            content = (
+                f"Your {minutes} minute Future Sprint has started. "
+                f"Focus on {title}: {description}"
+                "Work and come back and I will be avialble if you need to ask me."
+            )
+        else:
+            content = (
+                f"Your {minutes} minutes Future Sprint has started"
+                f"Focus on the clearest next step for {title}. "
+                "Come back with some real progress."
+            )
+
+    else:
+        pass
+
 if __name__ == '__main__':
     app.run(debug=True)
