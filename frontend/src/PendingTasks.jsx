@@ -421,11 +421,10 @@ function Pending() {
                         >
                             {task[3]} {task[4]}
                         </span>
-                        <Link
-                            to={`/future-room/${task[0]}`}
-                            className="future-room-button"
-                        >
-                            Discuss With Future AI
+                        <Link to={`/future-room/${task[0]}`}>
+                            <button type="button" className="future-room-button">
+                                Discuss With Future AI
+                            </button>
                         </Link>
                         <button
                             type="button"

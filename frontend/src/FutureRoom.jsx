@@ -232,7 +232,9 @@ function FutureRoom() {
 
     return (
         <main className="future-room">
-            <Link to="/pending-tasks">🔙</Link>
+            <Link to="/pending-tasks">
+                <button className="back-button">🔙</button>
+            </Link>
             <h1>Future Task Room</h1>
 
             {completedError && (
