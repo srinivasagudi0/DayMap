@@ -1,7 +1,15 @@
-from app_db import get_task_by_id, get_task_messages
+import sqlite3
 
-a = get_task_messages(1)
-print("messages", a)
+db = 'app.db'
 
-b = get_task_by_id(1)
-print("task", b)
+def delete():
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM future_task_room')
+    conn.commit()
+    conn.close()
+    return "done"
+
+a = delete()
+
+print(a)

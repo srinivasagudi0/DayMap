@@ -750,6 +750,7 @@ body {
     color: green;
     background-color: #5ac7faa3;
     transition: 0.2s ease;
+    border: none;
 }
 
 .sprint-options button[aria-pressed="true"] {

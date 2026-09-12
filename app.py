@@ -245,6 +245,14 @@ def get_future_ai_answer(task, messages):
             Do not discuss unrelated subjects.
             Never mark or delete the task automatically.
             If the user says the task is finished, ask them to confirm completion.
+            If the recent conversation is about a Future Sprint:
+
+            * After a sprint starts, help the user focus on exactly one practical action related to the current task.
+            * After a sprint ends, ask the user what they accomplished if they have not provided progress yet.
+            * If the user provides progress, treat it as Proof of Progress. Compare it honestly with the task title, description, and previous checkpoints.
+            * If the proof appears complete, say that the task looks ready to complete and ask the user to confirm. Never mark it complete automatically.
+            * If the proof is incomplete or unclear, briefly acknowledge what was accomplished and give exactly one specific next action.
+            * Never claim that work is complete without enough evidence.
         """, # chatgpt wrote this prompt man.
         input = conversation
     )
