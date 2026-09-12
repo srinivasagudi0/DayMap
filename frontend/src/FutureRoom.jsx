@@ -125,6 +125,8 @@ function FutureRoom() {
             `future-sprint-${taskId}`,
             endingTime.toString()
         );
+        addSprintMessage("start")
+            .catch(error => setError(error.message));
     }
 
     function stopSprint() {
@@ -170,6 +172,8 @@ function FutureRoom() {
                 setSprintActive(false);
                 setSprintEnd(null);
                 localStorage.removeItem(`future-sprint-${taskId}`);
+                addSprintMessage("finish")
+                    .catch(error => setError(error.message));
             }
         }, 1000)
 
@@ -182,6 +186,30 @@ function FutureRoom() {
         const remainingSeconds = seconds % 60;
 
         return `${minutes}:${remainingSeconds.toString().padStart(2,"0")}`;
+    }
+
+    async function addSprintMessage(eventType) {
+        const response = await fetch(
+            `/tasks/${taskId}/future-sprint-message`,
+            {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    event_type: eventType,
+                    minutes: sprintMinutes
+                })
+            }
+        );
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Could not add sprint message");
+        }
+
+        setMessages(previous => [
+            ...previous,
+            ["assistant", data.assistant_message.content]
+        ]);
     }
 
 
