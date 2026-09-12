@@ -720,3 +720,43 @@ body {
     cursor: pointer;
     border-radius: 30px;
 }
+
+.future-sprint {
+    background: rgba(255, 255, 255, 0.474);
+    display: block;
+    margin: 20px;
+}
+
+.future-sprint h2 {
+    font-size: 2.3rem;
+    color:#0022ff;
+
+}
+
+.sprint-options button {
+    margin-right: 20px;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    border: solid 1px;
+    border-radius: 20px;
+    color:rgb(18, 16, 0);
+    background-image: linear-gradient(90deg, rgba(0, 0, 255, 0.406), rgba(0, 128, 0, 0.569));
+}
+
+.start-sprint {
+    margin: 10px;
+    font-size: 1.2rem;
+    color: green;
+    background-color: #5ac7faa3;
+}
+
+.sprint-options button[aria-pressed="true"] {
+    background-image: linear-gradient(
+        135deg,
+        rgba(0, 0, 255, 0.85),
+        rgba(0, 128, 0, 0.989)
+    );
+    color: white;
+    border: 4px solid #77ff00;
+    transform: translateY(-5px);
+}

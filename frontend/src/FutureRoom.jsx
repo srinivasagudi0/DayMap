@@ -275,11 +275,13 @@ function FutureRoom() {
                                     ? "selected-sprint"
                                     : ""
                             }
+                            aria-pressed={sprintMinutes === minutes}
+
                         >{minutes} min</button>
             ))}
             </div>
 
-            <button type="button" onClick={startSprint}> Start Future Sprint </button>
+            <button type="button" onClick={startSprint} className="start-sprint"> Start Future Sprint </button>
         </>
         ) : (
             <>
