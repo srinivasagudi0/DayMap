@@ -109,7 +109,7 @@ function FutureRoom() {
     }
 
     const [sprintMinutes, setSprintMinutes] = useState(10);
-    const [secondsleft, setSecondsLeft] = useState(0);
+    const [secondsLeft, setSecondsLeft] = useState(0);
     const [sprintEnd, setSprintEnd] = useState(null);
     const [sprintActive, setSprintActive] = useState(false);
 
@@ -144,7 +144,7 @@ function FutureRoom() {
         const timer = setInterval(() => {
             const remaining = Math.max(
                 0,
-                Math.ceil(sprintEnd - Date.now() / 1000)
+                Math.ceil((sprintEnd - Date.now()) / 1000) // bad at maths that why caught it now.
             );
             setSecondsLeft(remaining)
 
