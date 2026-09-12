@@ -154,6 +154,8 @@ function FutureRoom() {
                 localStorage.removeitem(`future-sprint-${taskId}`);
             }
         }, 1000)
+
+        return () => clearInterval(timer);
     }, [sprintActive, sprintEnd, taskId]);
 
 
