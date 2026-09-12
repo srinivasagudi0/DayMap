@@ -138,6 +138,23 @@ function FutureRoom() {
         localStorage.removeItem(`future-sprint-${taskId}`);
     }
 
+    function CheckSprint() {
+        const savedTimer = localStorage.getItem(`future-sprint-${taskId}`);
+        
+        if (!savedTimer) return;
+
+        const endingTime = Number(savedTimer);
+        const remaining = Math.max(0,Math.ceil((endingTime - Date.now()) / 1000))
+
+        if (remaining > 0) {
+            setSprintEnd(endingTime);
+            setSecondsLeft(remaining);
+            setSprintActive(true);
+        } else {
+            localStorage.removeItem(`future-sprint-${taskId}`);
+        }
+    }
+
     useEffect(() => {
         if (!sprintActive || !sprintEnd) return;
         
