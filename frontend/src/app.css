@@ -741,6 +741,7 @@ body {
     border-radius: 20px;
     color:rgb(18, 16, 0);
     background-image: linear-gradient(90deg, rgba(0, 0, 255, 0.406), rgba(0, 128, 0, 0.569));
+    transition: 0.2s ease;
 }
 
 .start-sprint {
@@ -748,6 +749,7 @@ body {
     font-size: 1.2rem;
     color: green;
     background-color: #5ac7faa3;
+    transition: 0.2s ease;
 }
 
 .sprint-options button[aria-pressed="true"] {
@@ -759,4 +761,22 @@ body {
     color: white;
     border: 4px solid #77ff00;
     transform: translateY(-5px);
+}
+
+.stop-sprint {
+    margin: 10px;
+    font-size: 1.2rem;
+    color: red;
+    background-color: rgb(255, 234, 0);
+    transform: translateY(-5px);
+}
+
+
+.sprint-options button:hover {
+    transform: translateY(-5px);
+}
+
+.start-sprint:hover {
+    transform: translateY(-5px);
+    background-color: rgba(0, 128, 0, 0.265);
 }

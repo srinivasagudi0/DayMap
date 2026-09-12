@@ -289,7 +289,7 @@ function FutureRoom() {
                     {formatSprintTime(secondsLeft)}
                 </p>
 
-                <button type="button" onClick={stopSprint}>
+                <button type="button" onClick={stopSprint} className='stop-sprint'>
                     Stop Sprint
                 </button>
             </>
