@@ -1,5 +1,6 @@
 import  { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import ReactMarkdown from "react-markdown";
 
 function FutureRoom() {
     const {taskId} = useParams();
@@ -323,7 +324,11 @@ function FutureRoom() {
                 messages.map((message, index) => (
                     <div key={index} className={`message-${message[0]}`}>
                         <strong>{message[0]}</strong>
-                        <p>{message[1]}</p>
+                        {message[0] === "assistant" ? (
+                            <ReactMarkdown>{message[1]}</ReactMarkdown>
+                        ) : (
+                            <p>{message[1]}</p>
+                        )}
                     </div>
                 ))
             )}
