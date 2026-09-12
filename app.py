@@ -339,8 +339,26 @@ def future_sprint_message(task_id):
                 "Come back with some real progress."
             )
 
+    elif event_type =="finish":
+        content = (
+            f"Your Future Sprint is complete. "
+            "Tell me exactly what you accomplished. "
+        )        
     else:
-        pass
+        return jsonify({
+            "ok": False,
+            "error": "Invalid sprint event"
+        })
+
+    save_future_message(task_id, "assistant", content)
+
+    return jsonify({
+        "ok": True,
+        "assistant_message": {
+            "role": "assistant",
+            "content": content
+        }
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
