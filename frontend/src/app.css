@@ -780,3 +780,15 @@ body {
     transform: translateY(-5px);
     background-color: rgba(0, 128, 0, 0.265);
 }
+
+.sprint-time {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.sprint-progress {
+    width: 220px;
+    margin: 20px auto;
+    border: 2px solid #333;
+    overflow: hidden;
+}

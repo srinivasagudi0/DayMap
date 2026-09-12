@@ -170,4 +170,4 @@ function Home() {
 }
 
 export default Home;
-// I think this will have the overdue project if there are any it will show up on the top if not it is cool and sam eloginc will be used in the .
+// next feature would be like styling the timer more.

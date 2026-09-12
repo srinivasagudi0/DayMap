@@ -125,6 +125,7 @@ function FutureRoom() {
             `future-sprint-${taskId}`,
             endingTime.toString()
         );
+        window.location.reload();
         addSprintMessage("start")
             .catch(error => setError(error.message));
     }
@@ -188,6 +189,10 @@ function FutureRoom() {
 
         return `${minutes}:${remainingSeconds.toString().padStart(2,"0")}`;
     }
+
+    const sprintProgress = sprintActive
+        ? ((sprintMinutes * 60 - secondsLeft) / (sprintMinutes * 60)) * 100
+        : 0;
 
     async function addSprintMessage(eventType) {
         const response = await fetch(
@@ -285,9 +290,16 @@ function FutureRoom() {
         </>
         ) : (
             <>
-                <p className="sprint-time">
-                    {formatSprintTime(secondsLeft)}
-                </p>
+                <div
+                    className="sprint-progress"
+                    style={{
+                        background: `linear-gradient(90deg, #77ff00 ${sprintProgress}%, white 0)`
+                    }}
+                >
+                    <p className="sprint-time">
+                        {formatSprintTime(secondsLeft)}
+                    </p>
+                </div>
 
                 <button type="button" onClick={stopSprint} className='stop-sprint'>
                     Stop Sprint
