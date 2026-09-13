@@ -4,10 +4,12 @@ from app_db import add_task, init_db, get_num_tasks, search_tasks, due_today, nu
 from openai import OpenAI
 import os
 from datetime import datetime
+from flask_cors import CORS
 
 
 
 app = Flask(__name__)
+CORS(app)
 
 init_db()
 

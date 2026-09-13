@@ -19,7 +19,7 @@ export default defineConfig({
       "/tasks/<int:task_id>/future-room": "http://localhost:5000",
       "/tasks/<int:task_id>/future-room": "http://localhost:5000",
       "/tasks/<int:task_id>/future-sprint-message": "http://localhost:5000",
-      "/ready": "http:/localhost:5000"
+      "/ready": "http://localhost:5000"
     },
   },
 });
