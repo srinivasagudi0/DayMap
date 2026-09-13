@@ -2,6 +2,10 @@
 
 A very smart to-do app that helps you brainstorm, ask questions and a basic to-do app features. I built this to do 2 things, **learn** react and **manage** school and coding.
 
+## Why is this futuristic
+
+This is futuristic because it is really smart, AI involved and the best UI i have seen for the to do app after microsoft to do.
+
 ## Overview
 
 The app has a lot of features that are useful, below are some useful features that stand out for me.
