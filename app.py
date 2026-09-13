@@ -368,5 +368,10 @@ def future_sprint_message(task_id):
         }
     })
 
+@app.route("/ready")
+def ready_to_show():
+    # basically the app is going to load until this shows the ready message/signal
+    return jsonify({"ready": True})
+
 if __name__ == '__main__':
     app.run(debug=True)

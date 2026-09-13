@@ -3,9 +3,49 @@ import Home from './Home';
 import Addtask from './AddTask';
 import Pending from './PendingTasks';
 import FutureRoom from './FutureRoom';
+import { api } from "./ap";
+import { useState, useEffect } from 'react';
 
 
 function App() {
+
+  const [ready,  setReady] = useState(false);
+  useEffect(() => {
+    let stopped = false;
+    let retry;
+
+    async function checkServer() {
+      try {
+        const response = await fetch(api("/ready"));
+        const data = await response.json();
+         
+        if (response.ok && data.ready === true) {
+          if (!stopped) setReady(true);
+          return;
+        }
+      } catch {
+        //Server may be still waking up
+      }
+      if (!stopped) {
+        retry = setTimeout(checkServer, 3000);
+      }
+    }
+    checkServer();
+    
+    return () => {
+      stopped=true;
+      clearTimeout(retry);
+    };
+  }, []);
+
+  if (!ready) {
+    return (
+      <div className='loading-screen'>
+        <h1>Waking up DayMap... Please Wait.</h1>
+        <p></p>
+      </div>
+  );}
+
    return (
 
     <BrowserRouter>
