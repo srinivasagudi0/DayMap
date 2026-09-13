@@ -1,6 +1,7 @@
 import  { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from "react-markdown";
+import { api } from "./ap";
 
 function FutureRoom() {
     const {taskId} = useParams();
@@ -15,7 +16,7 @@ function FutureRoom() {
 
     useEffect(() => {
         CheckSprint();
-        fetch(`/tasks/${taskId}/future-room`)
+        fetch(api(`/tasks/${taskId}/future-room`))
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Could not load the Future Room");
@@ -40,7 +41,7 @@ function FutureRoom() {
         setError("");
         try {
         // The POST request will come here next.
-            const response = await fetch(`/tasks/${taskId}/future-room`, {
+            const response = await fetch(api(`/tasks/${taskId}/future-room`), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -82,7 +83,7 @@ function FutureRoom() {
         setCompletingId(taskId);
 
         try {
-            const response = await fetch("/complete-task", {
+            const response = await fetch(api("/complete-task"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -197,7 +198,7 @@ function FutureRoom() {
 
     async function addSprintMessage(eventType) {
         const response = await fetch(
-            `/tasks/${taskId}/future-sprint-message`,
+            api(`/tasks/${taskId}/future-sprint-message`),
             {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { api } from "./ap"
 
 // THe file looks so good and satisfying with the formatting(though it took me like an hour)
 // (later)yeah so really hard to keep organized, so...
@@ -32,7 +33,7 @@ function Pending() {
     });
 
     useEffect(() => {
-        fetch("/todays-tasks")
+        fetch(api("/todays-tasks"))
             .then(response =>
                 response.headers.get("content-type")?.includes("json")
                     ? response.json()
@@ -45,7 +46,7 @@ function Pending() {
     }, []);
 
     useEffect(() => {
-        fetch("/upcoming-tasks")
+        fetch(api("/upcoming-tasks"))
             .then(response =>
                 response.headers.get("content-type")?.includes("json")
                     ? response.json()
@@ -58,7 +59,7 @@ function Pending() {
     }, []);
 
     function loadCompletedTasks() {
-        fetch("/completed-tasks")
+        fetch(api("/completed-tasks"))
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Could not load completed tasks.");
@@ -118,7 +119,7 @@ function Pending() {
     setEditMessage("");
 
     try {
-        const response = await fetch(`/tasks/${editingId}`, {
+        const response = await fetch(api(`/tasks/${editingId}`), {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -143,8 +144,8 @@ function Pending() {
 
         const [todayResponse, upcomingResponse] =
             await Promise.all([
-                fetch("/todays-tasks"),
-                fetch("/upcoming-tasks")
+                fetch(api("/todays-tasks")),
+                fetch(api("/upcoming-tasks"))
             ]);
 
         const [todayData, upcomingData] =
@@ -180,7 +181,7 @@ function Pending() {
         setClearMessage("");
 
         try {
-            const response = await fetch("/delete/completed-tasks", {
+            const response = await fetch(api("/delete/completed-tasks"), {
                 method: "DELETE"
             });
 
@@ -207,7 +208,7 @@ function Pending() {
         setCompletingId(taskId);
 
         try {
-            const response = await fetch("/complete-task", {
+            const response = await fetch(api("/complete-task"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -262,7 +263,7 @@ function Pending() {
         setDeletingId(taskId);
 
         try {
-            const response = await fetch("/delete-task", {
+            const response = await fetch(api("/delete-task"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -305,7 +306,7 @@ function Pending() {
     const [overdueError, setOverdueError] = useState("");
 
     useEffect(() => {
-        fetch("/overdue-tasks")
+        fetch(api("/overdue-tasks"))
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Could not load overdue tasks");

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { api } from "./ap";
 
 
 
@@ -15,7 +16,7 @@ function Addtask() {
     setMessage(""); 
 
     try {
-      const response = await fetch("/tasks", {
+      const response = await fetch(api("/tasks"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: task }),
@@ -63,7 +64,7 @@ function Addtask() {
 
     try {
     // Make sure this route matches your Flask blueprint route
-    const response = await fetch("/tasks/manual-add", {
+    const response = await fetch(api("/tasks/manual-add"), {
       method: "POST",
       headers: { 
         "Content-Type": "application/json" 

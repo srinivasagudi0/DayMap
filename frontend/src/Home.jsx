@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { api } from "./ap"
 
 function Home() {
 
@@ -23,7 +24,7 @@ function Home() {
     setMessage(""); 
 
     try {
-      const response = await fetch("/tasks", {
+      const response = await fetch(api("/tasks"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: task }),
@@ -55,7 +56,7 @@ function Home() {
   const [numTasks, setNumTasks] = useState(0);
 
   useEffect(() => {
-    fetch('/tasks/count')
+    fetch(api('/tasks/count'))
       .then(response => response.json())
       .then(data => setNumTasks(data.count))
       .catch(error => console.error('Error fetching task count:', error));
@@ -67,7 +68,7 @@ function Home() {
   const searchTask = () => {
     if (!search.trim()) return;
     
-    fetch(`/tasks/search?keyword=${encodeURIComponent(search)}`)
+    fetch(api(`/tasks/search?keyword=${encodeURIComponent(search)}`))
       .then(response => response.json())
       .then(data => {
         setSearchResults(data.results);
@@ -79,7 +80,7 @@ function Home() {
   const [dueToday, setDueToday] = useState([])
 
   useEffect(() => {
-    fetch('/todays-tasks')
+    fetch(api('/todays-tasks'))
       .then(response => response.json())
       .then(data => setDueToday(data.due))
       .catch(error => console.error('Error fetching tasks', error));
@@ -88,7 +89,7 @@ function Home() {
   const [numCompleted, setNumCompleted] = useState(0)
 
   useEffect(() =>  {
-    fetch('/num/completed-tasks')
+    fetch(api('/num/completed-tasks'))
       .then(response => response.json())
       .then(data => {
         setNumCompleted(data.num);
