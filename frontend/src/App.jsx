@@ -40,10 +40,14 @@ function App() {
 
   if (!ready) {
     return (
-      <div className='loading-screen'>
-        <h1>Waking up DayMap... Please Wait.</h1>
-        <p></p>
-      </div>
+    <div className='loading-screen'>
+      <h1>
+        Waking up <span className="jumping-text">
+          <span>D</span><span>a</span><span>y</span><span>M</span><span>a</span><span>p</span><span>.</span><span>.</span><span>.</span>
+        </span>
+      </h1>
+      <p>The First load may take up to a minute.</p>
+    </div>
   );}
 
    return (

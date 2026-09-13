@@ -856,3 +856,46 @@ nav a[aria-current="page"] {
     border: none;
     border-radius: 10px;
 }
+
+.loading-screen {
+
+    margin-top: 25%;
+    text-align: center;
+    font-size: 30px;
+    color: purple;
+}
+
+.loading-screen p {
+    font-size: 20px;
+    color: #666;
+    margin-top: 10px;
+}
+
+
+.jumping-text span {
+    display: inline-block;
+    animation: text-jump 0.3s ease-in-out infinite alternate;
+}
+
+
+.jumping-text span:nth-child(1) { animation-delay: 0.0s; }
+.jumping-text span:nth-child(2) { animation-delay: 0.1s; }
+.jumping-text span:nth-child(3) { animation-delay: 0.2s; }
+.jumping-text span:nth-child(4) { animation-delay: 0.3s; }
+
+.jumping-text span:nth-child(5) { animation-delay: 0.4s; }
+.jumping-text span:nth-child(6) { animation-delay: 0.5s; }
+.jumping-text span:nth-child(7) { animation-delay: 0.6s; }
+.jumping-text span:nth-child(8) { animation-delay: 0.7s; }
+.jumping-text span:nth-child(9) { animation-delay: 0.8s; }
+
+
+@keyframes text-jump {
+    0% {
+        transform: translateY(1px);
+    }
+    100% {
+        transform: translateY(-50px);
+        color: #048a8f;
+    }
+}
