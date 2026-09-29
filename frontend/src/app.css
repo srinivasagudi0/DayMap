@@ -1043,3 +1043,36 @@ nav {
         margin: 10px;
     }
 }
+
+
+main {
+    width: 92%;
+    max-width: none;
+}
+
+.overdue-tasks {
+    width: 96%;
+    max-width: none;
+}
+
+.title h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+@media (min-width: 80rem) {
+    .manual-add form {
+        width: 70%;
+    }
+
+    .auto textarea,
+    .search textarea {
+        width: 65%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .manual-add label {
+        margin-left: 0 !important;
+    }
+}
