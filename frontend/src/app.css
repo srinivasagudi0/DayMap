@@ -1106,3 +1106,32 @@ main {
 .manual-add form label {
     margin-left: 0 !important;
 }
+
+.today-tasks li:has(> .edit-form),
+.upcoming-tasks li:has(> .edit-form),
+.overdue-tasks li:has(> .edit-form) {
+    width: 100%;
+    padding: 1rem;
+}
+
+.edit-form {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
+    min-width: 0;
+}
+
+.edit-form textarea {
+    min-height: 6rem;
+}
+
+@media (max-width: 600px) {
+    .edit-form {
+        grid-template-columns: 1fr;
+    }
+}
