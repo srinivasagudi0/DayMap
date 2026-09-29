@@ -1,4 +1,4 @@
-body {
+      body {
     background:#d3a304d4;
 }
 
@@ -9,7 +9,7 @@ nav {
     gap: 12px;
     padding: 12px clamp(16px, 4w, 60px);
     background: peachpuff;
-    font-size: 1.3rem;
+    font-size: 1.3rem; 
     display: flex;
 }
 
@@ -897,5 +897,149 @@ nav a[aria-current="page"] {
     100% {
         transform: translateY(-50px);
         color: #048a8f;
+    }
+}
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+main {
+    width: min(100% - 24px, 1100px);
+    margin-inline: auto;
+}
+
+nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 12px clamp(16px, 4vw, 60px);
+}
+
+.title {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    padding: 16px;
+}
+
+.row > * {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+.auto textarea,
+.search textarea {
+    width: min(100%, 600px);
+    max-width: 100%;
+}
+
+.manual-add form {
+    display: grid;
+    gap: 14px;
+    width: min(100% - 24px, 650px);
+    margin: 0 auto;
+}
+
+.manual-add label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.manual-add input,
+.manual-add select {
+    width: 100%;
+    margin: 0;
+}
+
+.manual-add button {
+    justify-self: center;
+    margin: 10px 0;
+}
+
+.toggle-completed-button,
+.Clear-tasks {
+    position: static;
+    margin: 10px;
+}
+
+.future-room h1 {
+    font-size: clamp(2rem, 7vw, 5rem);
+}
+
+.future-room a {
+    width: auto;
+}
+
+.future-chat form {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+}
+
+.Query {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    margin: 0;
+}
+
+.message-user,
+.message-assistant {
+    width: fit-content;
+    max-width: 90%;
+    overflow-wrap: anywhere;
+}
+
+.loading-screen {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+@media (max-width: 600px) {
+    .pending-title-box .task-badge {
+        position: static;
+        display: inline-block;
+        transform: none;
+        margin: 4px;
+        font-size: 1rem;
+    }
+
+    .today-tasks ul,
+    .upcoming-tasks ul,
+    .completed-tasks ul {
+        padding-left: 0;
+    }
+
+    .today-tasks li,
+    .upcoming-tasks li,
+    .overdue-tasks li {
+        padding: 14px;
+    }
+
+    .completed-check,
+    .delete-button,
+    .overdue-tasks .delete-button {
+        position: static;
+        float: none;
+        transform: none;
+        margin: 6px;
+    }
+
+    .edit-form {
+        grid-template-columns: 1fr;
+    }
+
+    .AI-complete {
+        float: none;
+        margin: 10px;
     }
 }
